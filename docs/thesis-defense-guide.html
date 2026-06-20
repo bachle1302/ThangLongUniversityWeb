@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cẩm Nang Bảo Vệ Đồ Án — UMS TLU Portal</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Style Sheet -->
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #151c2c;
+      --bg-card-hover: #1e293b;
+      --bg-header: #101726;
+      --border: #263554;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --primary: #ef4444; /* TLU red accent */
+      --secondary: #3b82f6; /* Tech blue */
+      --accent: #06b6d4; /* Teal highlight */
+      --success: #10b981;
+      --warning: #f59e0b;
+      --purple: #8b5cf6;
+      --font-title: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-code: 'Fira Code', monospace;
+      --sidebar-width: 280px;
+    }
+
+    [data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-header: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --primary: #c8102e;
+      --secondary: #2563eb;
+      --accent: #0891b2;
+      --success: #059669;
+      --warning: #d97706;
+      --purple: #7c3aed;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Layout Components */
+    header {
+      background-color: var(--bg-header);
+      border-bottom: 1px solid var(--border);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      font-family: var(--font-title);
+      font-weight: 900;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .brand-title h1 {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-title p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-modes {
+      display: flex;
+      background-color: var(--bg-main);
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: 30px;
+    }
+
+    .mode-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background-color: var(--secondary);
+      color: white;
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .mode-btn:hover:not(.active) {
+      color: var(--text-main);
+      background-color: var(--bg-card);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .action-btn {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      border-color: var(--secondary);
+      color: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    /* Main Container */
+    .container {
+      margin-top: 70px;
+      min-height: calc(100vh - 70px);
+      display: flex;
+    }
+
+    /* VIEW 1: PRESENTATION MODE */
+    #view-presentation {
+      display: flex;
+      width: 100%;
+      height: calc(100vh - 70px);
+      overflow: hidden;
+    }
+
+    .slide-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-main);
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    .slide-container {
+      flex: 1;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow-y: auto;
+      transform: scale(1);
+      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: scale(0.97) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .slide-number {
+      font-family: var(--font-title);
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 20px;
+    }
+
+    .slide-topic {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background-color: var(--bg-main);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .slide-title {
+      font-family: var(--font-title);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .slide-title span {
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-content {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .slide-content ul {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    .slide-content li {
+      margin-bottom: 10px;
+    }
+
+    .slide-content strong {
+      color: var(--secondary);
+    }
+
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .slide-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .control-btn {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .control-btn:hover:not(:disabled) {
+      border-color: var(--secondary);
+      background-color: var(--bg-card-hover);
+      color: var(--secondary);
+    }
+
+    .control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .slide-progress-bar {
+      flex: 1;
+      height: 4px;
+      background-color: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      max-width: 300px;
+    }
+
+    .slide-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Notes Sidebar */
+    .notes-sidebar {
+      width: 380px;
+      background-color: var(--bg-header);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .notes-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-card);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notes-header h3 {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--warning);
+    }
+
+    .notes-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .notes-content p {
+      margin-bottom: 12px;
+    }
+
+    .notes-content ul {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .notes-content li {
+      margin-bottom: 8px;
+    }
+
+    .keyword-badge {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: var(--font-code);
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    /* VIEW 2: DOCUMENTATION MODE */
+    #view-documentation {
+      display: none;
+      width: 100%;
+    }
+
+    .doc-sidebar {
+      width: var(--sidebar-width);
+      position: fixed;
+      top: 70px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--bg-header);
+      border-right: 1px solid var(--border);
+      padding: 20px 10px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    .doc-nav-list {
+      list-style: none;
+    }
+
+    .doc-nav-list li {
+      margin-bottom: 4px;
+    }
+
+    .doc-nav-link {
+      display: block;
+      padding: 8px 16px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .doc-nav-link:hover {
+      color: var(--text-main);
+      background-color: var(--bg-card);
+    }
+
+    .doc-nav-link.active {
+      color: var(--secondary);
+      background-color: rgba(59, 130, 246, 0.08);
+      font-weight: 600;
+    }
+
+    .doc-main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 40px;
+      max-width: 1000px;
+    }
+
+    .doc-section {
+      margin-bottom: 60px;
+      scroll-margin-top: 100px;
+    }
+
+    .doc-section h2 {
+      font-family: var(--font-title);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      border-left: 4px solid var(--primary);
+      padding-left: 12px;
+    }
+
+    .doc-section h3 {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 25px;
+      margin-bottom: 12px;
+      color: var(--secondary);
+    }
+
+    .doc-section p {
+      font-size: 14.5px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      color: var(--text-main);
+    }
+
+    .doc-section ul, .doc-section ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+
+    .doc-section li {
+      margin-bottom: 8px;
+    }
+
+    /* VIEW 3: Q&A CHEAT SHEET */
+    #view-qa {
+      display: none;
+      width: 100%;
+      padding: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .qa-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .qa-header h2 {
+      font-family: var(--font-title);
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .qa-header p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .qa-search {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    .qa-search input {
+      width: 100%;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      border-radius: 30px;
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .qa-search input:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+    }
+
+    .qa-category {
+      margin-bottom: 40px;
+    }
+
+    .qa-category-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .faq-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--border);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .faq-question {
+      padding: 18px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+
+    .faq-item.open .faq-question::after {
+      content: '-';
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 24px 20px;
+      border-top: 1px solid var(--border);
+      background-color: rgba(25, 28, 44, 0.2);
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .faq-answer strong {
+      color: var(--text-main);
+    }
+
+    .faq-item.open .faq-answer {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+
+    /* VIEW 4: GLOSSARY MODE */
+    #view-glossary {
+      display: none;
+      width: 100%;
+      padding: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Common Card Styling */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card h4 {
+      font-family: var(--font-title);
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .card code {
+      font-family: var(--font-code);
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      color: var(--accent);
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      #view-presentation {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+      }
+      .notes-sidebar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        height: 300px;
+      }
+      .doc-sidebar {
+        display: none;
+      }
+      .doc-main {
+        margin-left: 0;
+        padding: 20px;
+      }
+      #view-glossary {
+        padding: 20px 10px;
+      }
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    td {
+      color: var(--text-muted);
+    }
+
+    tr:hover td {
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.01);
+    }
+
+    pre {
+      font-family: var(--font-code);
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    /* Diagrams styling */
+    .diagram-container {
+      background-color: rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .diagram-container svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .diagram-flow-step {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .diagram-flow-step:hover rect {
+      fill: var(--bg-card-hover) !important;
+      stroke: var(--accent) !important;
+    }
+
+    .diagram-flow-step:hover text {
+      fill: var(--accent) !important;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-left: 4px solid var(--secondary);
+      background-color: rgba(59, 130, 246, 0.05);
+      padding: 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+    }
+
+    .callout.warning {
+      border-left-color: var(--warning);
+      background-color: rgba(245, 158, 11, 0.05);
+    }
+
+    .callout.success {
+      border-left-color: var(--success);
+      background-color: rgba(16, 185, 129, 0.05);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* PRINT STYLES */
+    @media print {
+      header, .notes-sidebar, .slide-controls, .qa-search, .doc-sidebar {
+        display: none !important;
+      }
+      body {
+        background-color: white !important;
+        color: black !important;
+      }
+      .container {
+        margin-top: 0;
+      }
+      #view-presentation, #view-documentation, #view-qa, #view-glossary {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .slide-container {
+        border: none !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        height: auto !important;
+        padding: 20px 0 !important;
+      }
+      .faq-item {
+        border: 1px solid #ccc !important;
+        background: white !important;
+        page-break-inside: avoid;
+      }
+      .faq-answer {
+        display: block !important;
+        color: #333 !important;
+      }
+      .doc-main {
+        margin-left: 0 !important;
+        padding: 0 !important;
+      }
+      .doc-section {
+        page-break-inside: avoid;
+        margin-bottom: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">TLU</div>
+      <div class="brand-title">
+        <h1>TLU Portal UMS</h1>
+        <p>Cẩm Nang Bảo Vệ Đồ Án Tốt Nghiệp</p>
+      </div>
+    </div>
+
+    <div class="nav-modes">
+      <button class="mode-btn active" onclick="switchView('presentation')">
+        <span>🎬</span> Slide Trình Chiếu
+      </button>
+      <button class="mode-btn" onclick="switchView('documentation')">
+        <span>📖</span> Tài Liệu Chi Tiết
+      </button>
+      <button class="mode-btn" onclick="switchView('qa')">
+        <span>❓</span> Cẩm Nang Phản Biện
+      </button>
+      <button class="mode-btn" onclick="switchView('glossary')">
+        <span>🔤</span> Giải Thích Thuật Ngữ
+      </button>
+    </div>
+
+    <div class="header-actions">
+      <button class="action-btn" id="theme-toggle" onclick="toggleTheme()" title="Đổi màu nền">🌓</button>
+      <button class="action-btn" onclick="window.print()" title="In ra PDF/Giấy">🖨️</button>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- ================= VIEW 1: PRESENTATION SLIDE MODE ================= -->
+    <div id="view-presentation">
+      <div class="slide-area">
+        <div class="slide-container" id="slide-box">
+          <!-- Dynamically loaded slide content -->
+        </div>
+
+        <div class="slide-controls">
+          <button class="control-btn" id="prev-btn" onclick="prevSlide()" disabled>
+            <span>←</span> Lùi Lại
+          </button>
+          <div class="slide-progress-bar">
+            <div class="slide-progress-fill" id="progress-fill"></div>
+          </div>
+          <button class="control-btn" id="next-btn" onclick="nextSlide()">
+            Tiếp Theo <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="notes-sidebar">
+        <div class="notes-header">
+          <span>💡</span>
+          <h3>Kịch Bản Nói & Ý Chính</h3>
+        </div>
+        <div class="notes-content" id="notes-box">
+          <!-- Dynamically loaded presenter notes -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW 2: DOCUMENTATION DETAILED MODE ================= -->
+    <div id="view-documentation">
+      <aside class="doc-sidebar">
+        <ul class="doc-nav-list">
+          <li><a href="#doc-tong-quan" class="doc-nav-link active">1. Tổng Quan & Bài Toán</a></li>
+          <li><a href="#doc-kien-truc" class="doc-nav-link">2. Kiến Trúc & Công Nghệ</a></li>
+          <li><a href="#doc-db-schema" class="doc-nav-link">3. Thiết Kế Cơ Sở Dữ Liệu</a></li>
+          <li><a href="#doc-dang-ky" class="doc-nav-link">4. Đăng Ký Học Phần (Kafka)</a></li>
+          <li><a href="#doc-chat" class="doc-nav-link">5. Động Cơ Chat Realtime</a></li>
+          <li><a href="#doc-chatbot" class="doc-nav-link">6. Trợ Lý Học Vụ AI RAG</a></li>
+          <li><a href="#doc-security" class="doc-nav-link">7. Thanh Toán & Bảo Mật</a></li>
+          <li><a href="#doc-vong-doi" class="doc-nav-link">8. Vòng Đời Học Kỳ</a></li>
+        </ul>
+      </aside>
+
+      <main class="doc-main">
+        <!-- Section 1: Tổng quan -->
+        <section id="doc-tong-quan" class="doc-section">
+          <h2>1. Tổng Quan & Bài Toán</h2>
+          <p>Hệ thống <strong>ThangLong University Web Portal (TLU UMS)</strong> là một nền tảng tích hợp phục vụ nhu cầu số hóa quy trình quản lý đào tạo tín chỉ, giải quyết các nhu cầu thiết thực của 3 nhóm đối tượng: Sinh viên, Giảng viên và Quản trị viên (Admin Phòng Đào tạo).</p>
+          
+          <h3>Mục tiêu hệ thống</h3>
+          <ul>
+            <li><strong>Student Portal:</strong> Sinh viên có thể quản lý hồ sơ, đăng ký học phần trực tuyến, theo dõi thời khóa biểu, lịch thi, tra cứu điểm số chi tiết (thang điểm 10, thang điểm chữ và hệ 4), thanh toán học phí online thông qua cổng VNPay và chat trực tuyến với giảng viên/lớp học.</li>
+            <li><strong>Teacher Portal:</strong> Giảng viên theo dõi lịch dạy học, thực hiện điểm danh điện tử từng buổi học (1-15 buổi), nhập điểm thành phần trực tiếp trên giao diện và thực hiện khóa điểm gửi phòng đào tạo.</li>
+            <li><strong>Admin Portal:</strong> Quản trị viên thiết lập cấu trúc học thuật (Major, Department), quản lý chương trình học (Courses, môn tiên quyết), mở học kỳ mới, quản lý lớp học phần, chia phòng thi, quản lý Knowledge Base và kiểm soát lịch sử hệ thống qua Audit Logs.</li>
+          </ul>
+
+          <div class="callout warning">
+            <div class="callout-title">⚠️ Bài Toán Cốt Lõi: Tải Đỉnh Đột Biến (Peak Traffic)</div>
+            Trong đào tạo tín chỉ, khi cổng đăng ký môn học mở ra, hàng nghìn sinh viên truy cập đồng thời để giành giật các lớp có lịch học hoặc giảng viên ưa thích. Điều này tạo ra hàng nghìn request/giây ghi trực tiếp xuống CSDL, gây cạn kiệt Connection Pool và sập hệ thống. TLU Portal giải quyết triệt để bài toán này bằng hàng đợi Apache Kafka.
+          </div>
+        </section>
+
+        <!-- Section 2: Kiến trúc -->
+        <section id="doc-kien-truc" class="doc-section">
+          <h2>2. Kiến Trúc & Công Nghệ</h2>
+          <p>Hệ thống được phát triển theo mô hình <strong>Client-Server</strong>, trong đó Backend cung cấp RESTful APIs và WebSocket endpoints, còn Frontend là ứng dụng Single Page App (SPA) tương tác bất đồng bộ.</p>
+
+          <div class="grid-2">
+            <div class="card">
+              <h4>Backend (Spring Boot 3.x / Java 17)</h4>
+              <ul>
+                <li><strong>Spring Data JPA (Hibernate):</strong> Quản lý ORM và tương tác cơ sở dữ liệu PostgreSQL.</li>
+                <li><strong>Spring Security + JWT:</strong> Xác thực và phân quyền phi trạng thái (Stateless).</li>
+                <li><strong>Redis:</strong> Caching thông tin phiên làm việc, danh sách user online và lưu trữ Refresh Token.</li>
+                <li><strong>Apache Kafka:</strong> Message broker trung gian điều phối hàng đợi đăng ký bất đồng bộ.</li>
+                <li><strong>WebSocket (STOMP):</strong> Giao thức truyền tin realtime cho hệ thống chat.</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h4>Frontend (TanStack Start / React 18 / Vite)</h4>
+              <ul>
+                <li><strong>TypeScript:</strong> Đảm bảo type safety và giảm thiểu lỗi runtime.</li>
+                <li><strong>Tailwind CSS + shadcn/ui:</strong> Xây dựng giao diện responsive, hiện đại theo cơ chế Design Tokens.</li>
+                <li><strong>TanStack Query (React Query):</strong> Caching và đồng bộ hóa state dữ liệu từ API server.</li>
+                <li><strong>TanStack Router:</strong> Hệ thống định tuyến mạnh mẽ phía client-side.</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>Sơ đồ Kiến trúc Tổng quan</h3>
+          <div class="diagram-container">
+            <svg width="700" height="350" viewBox="0 0 700 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Frontend Group -->
+              <rect x="20" y="20" width="180" height="310" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
+              <text x="110" y="45" fill="#e2e8f0" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">CLIENT (React SPA)</text>
+              <rect x="35" y="80" width="150" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="110" y="105" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">TanStack Router & UI</text>
+              <rect x="35" y="140" width="150" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="110" y="165" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">TanStack Query</text>
+              <rect x="35" y="200" width="150" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="110" y="225" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">SockJS / STOMP Client</text>
+              
+              <!-- API Gateway / Security -->
+              <rect x="250" y="20" width="200" height="310" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+              <text x="350" y="45" fill="#e2e8f0" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">BACKEND (Spring Boot)</text>
+              <rect x="270" y="80" width="160" height="40" rx="6" fill="#0f172a" stroke="#10b981"/>
+              <text x="350" y="105" fill="#e2e8f0" font-family="Inter" font-size="12" text-anchor="middle" font-weight="bold">Security (JWT & Rate Limit)</text>
+              <rect x="270" y="140" width="160" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="350" y="165" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">REST Controllers</text>
+              <rect x="270" y="200" width="160" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="350" y="225" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">Service Layer & AOP</text>
+              <rect x="270" y="260" width="160" height="40" rx="6" fill="#0f172a" stroke="#263554"/>
+              <text x="350" y="285" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">JPA Repositories</text>
+              
+              <!-- Infrastructure Group -->
+              <rect x="500" y="20" width="180" height="310" rx="10" fill="#111827" stroke="#8b5cf6" stroke-width="2"/>
+              <text x="590" y="45" fill="#e2e8f0" font-family="Outfit" font-size="14" font-weight="bold" text-anchor="middle">INFRASTRUCTURE</text>
+              
+              <!-- DB -->
+              <rect x="520" y="70" width="140" height="35" rx="6" fill="#1f2937" stroke="#263554"/>
+              <text x="590" y="92" fill="#e2e8f0" font-family="Inter" font-size="11" text-anchor="middle">PostgreSQL :5432</text>
+              
+              <!-- Redis -->
+              <rect x="520" y="115" width="140" height="35" rx="6" fill="#1f2937" stroke="#263554"/>
+              <text x="590" y="137" fill="#e2e8f0" font-family="Inter" font-size="11" text-anchor="middle">Redis Cache :6379</text>
+              
+              <!-- Kafka -->
+              <rect x="520" y="160" width="140" height="35" rx="6" fill="#1f2937" stroke="#8b5cf6"/>
+              <text x="590" y="182" fill="#e2e8f0" font-family="Inter" font-size="11" text-anchor="middle" font-weight="bold">Kafka Broker :9092</text>
+
+              <!-- Groq AI -->
+              <rect x="520" y="205" width="140" height="35" rx="6" fill="#1f2937" stroke="#06b6d4"/>
+              <text x="590" y="227" fill="#e2e8f0" font-family="Inter" font-size="11" text-anchor="middle">Groq API (AI RAG)</text>
+
+              <!-- VNPay -->
+              <rect x="520" y="250" width="140" height="35" rx="6" fill="#1f2937" stroke="#ef4444"/>
+              <text x="590" y="272" fill="#e2e8f0" font-family="Inter" font-size="11" text-anchor="middle">VNPay Sandbox</text>
+              
+              <!-- Connection Lines -->
+              <!-- FE to BE -->
+              <path d="M 200 120 L 250 120" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+              <path d="M 200 220 L 270 220" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)"/>
+              
+              <!-- BE to Infra -->
+              <path d="M 430 160 L 520 90" stroke="#10b981" stroke-width="1.5"/>
+              <path d="M 430 160 L 520 132" stroke="#10b981" stroke-width="1.5"/>
+              <path d="M 430 160 L 520 177" stroke="#10b981" stroke-width="2"/>
+              <path d="M 430 220 L 520 222" stroke="#10b981" stroke-width="1.5"/>
+              <path d="M 430 220 L 520 267" stroke="#10b981" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </section>
+
+        <!-- Section 3: DB Schema -->
+        <section id="doc-db-schema" class="doc-section">
+          <h2>3. Thiết Kế Cơ Sở Dữ Liệu</h2>
+          <p>Cơ sở dữ liệu PostgreSQL gồm 31 bảng được quản lý phiên bản migration thông qua Flyway. Các mối quan hệ cốt lõi được cấu hình để đảm bảo tính toàn vẹn tham chiếu.</p>
+          
+          <h3>Các bảng dữ liệu quan trọng</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên Bảng</th>
+                <th>Khóa chính / Khóa ngoại</th>
+                <th>Mô tả chức năng nghiệp vụ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>users</code></td>
+                <td><code>id</code></td>
+                <td>Lưu trữ thông tin tài khoản người dùng, bao gồm <code>username</code>, <code>password</code> (mã hóa BCrypt), và <code>role</code> (ADMIN, STUDENT, TEACHER).</td>
+              </tr>
+              <tr>
+                <td><code>students</code></td>
+                <td><code>id</code> (1-1 với <code>users.id</code>)</td>
+                <td>Chứa thông tin cá nhân của sinh viên, điểm CPA tích lũy và liên kết với ngành học (<code>major_id</code>).</td>
+              </tr>
+              <tr>
+                <td><code>teachers</code></td>
+                <td><code>id</code> (1-1 với <code>users.id</code>)</td>
+                <td>Chứa thông tin giảng viên và khoa giảng dạy.</td>
+              </tr>
+              <tr>
+                <td><code>class_sections</code></td>
+                <td><code>id</code> (FK <code>semester_id</code>, <code>course_id</code>)</td>
+                <td>Lớp học phần cụ thể của một môn học trong học kỳ. Lưu trữ sĩ số tối đa, sĩ số hiện tại và trạng thái khóa bảng điểm <code>grade_locked</code>.</td>
+              </tr>
+              <tr>
+                <td><code>class_section_schedules</code></td>
+                <td><code>id</code> (FK <code>class_section_id</code>, <code>room_id</code>, <code>period_id</code>)</td>
+                <td>Bảng chi tiết lịch học của một lớp học phần. Hỗ trợ trường hợp lớp học nhiều buổi trong tuần (quan hệ 1-N).</td>
+              </tr>
+              <tr>
+                <td><code>enrollments</code></td>
+                <td><code>id</code> (FK <code>student_id</code>, <code>class_section_id</code>)</td>
+                <td>Bản ghi đăng ký học của sinh viên. Đảm bảo ràng buộc duy nhất giữa sinh viên và lớp học phần.</td>
+              </tr>
+              <tr>
+                <td><code>grades</code></td>
+                <td><code>id</code> (FK <code>enrollment_id</code>)</td>
+                <td>Chứa điểm chuyên cần (10%), giữa kỳ (30%), cuối kỳ (60%), và điểm thi lại <code>retest_score</code>. Tự động cập nhật điểm tổng kết, điểm hệ 4 và điểm chữ.</td>
+              </tr>
+              <tr>
+                <td><code>tuition_bills</code></td>
+                <td><code>id</code> (FK <code>student_id</code>, <code>semester_id</code>)</td>
+                <td>Hóa đơn học phí theo kỳ của sinh viên. Chứa thông tin tổng số tiền, số tiền đã trả và trạng thái thanh toán.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Section 4: Đăng Ký (Kafka) -->
+        <section id="doc-dang-ky" class="doc-section">
+          <h2>4. Đăng Ký Học Phần (Kafka Queue & Concurrency)</h2>
+          <p>Khi sinh viên đăng ký môn học, thay vị xử lý đồng bộ làm nghẽn luồng kết nối CSDL, hệ thống chuyển sang kiến trúc <strong>Event-Driven</strong> bất đồng bộ.</p>
+
+          <div class="callout success">
+            <div class="callout-title">⚙️ Quy trình xử lý Đăng ký môn học</div>
+            <ol>
+              <li>Sinh viên gửi request đăng ký lớp học phần <code>classSectionId</code> kèm JWT.</li>
+              <li>API Controller kiểm tra điều kiện cơ bản (cổng đăng ký có mở không) -> Tạo một UUID <code>requestId</code> -> Lưu request trạng thái <code>PENDING</code> vào Redis/DB.</li>
+              <li>Controller đẩy message <code>EnrollmentMessage(requestId, studentId, classSectionId)</code> vào Kafka topic <code>"class-registration"</code>.</li>
+              <li>Backend lập tức trả về HTTP status <strong>202 Accepted</strong> cùng <code>requestId</code>. Phía frontend nhận kết quả ngay mà không bị quay vòng tròn, sau đó bắt đầu cơ chế Polling (hoặc WebSocket) để cập nhật trạng thái.</li>
+              <li><strong>Kafka Consumer</strong> phía sau đọc message từ topic theo thứ tự.</li>
+              <li>Consumer thực hiện <strong>Pessimistic Lock</strong> (<code>SELECT FOR UPDATE</code>) trên dòng lớp học phần trong DB để kiểm tra sĩ số, tránh tình trạng race condition (nhiều người cùng tranh slot cuối).</li>
+              <li>Consumer kiểm tra các ràng buộc nâng cao (trùng lịch học, môn tiên quyết) -> Ghi bản ghi đăng ký <code>enrollment</code> vào DB -> Tăng sĩ số <code>current_slots</code>.</li>
+              <li>Consumer cập nhật kết quả (SUCCESS/FAILED) kèm lý do chi tiết vào DB/Redis, đánh dấu <code>requestId</code> hoàn tất để frontend lấy thông tin hiển thị cho sinh viên.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Section 5: Chat -->
+        <section id="doc-chat" class="doc-section">
+          <h2>5. Động Cơ Chat Realtime (WebSocket & Redis)</h2>
+          <p>Hệ thống chat realtime được xây dựng bằng giao thức <strong>WebSocket (STOMP + SockJS)</strong>, hỗ trợ 3 loại phòng: Private Chat (1-1 giữa sinh viên và giảng viên), Group Chat (nhóm tự do) và Class Group Chat (nhóm tự động tạo cho từng lớp học phần).</p>
+
+          <h3>Bảo mật WebSocket</h3>
+          <ul>
+            <li><strong>Handshake Interceptor:</strong> Xác thực JWT token được truyền qua query parameter trước khi chấp nhận nâng cấp kết nối (handshake).</li>
+            <li><strong>Channel Interceptor:</strong> Chặn tất cả các frame STOMP gửi lên (SEND, SUBSCRIBE) để xác thực lại token, đồng thời kiểm tra xem người dùng đó có thuộc danh sách thành viên của phòng chat (<code>chat_room_members</code>) hay không, ngăn chặn việc subscribe trộm tin nhắn nhóm khác.</li>
+          </ul>
+
+          <h3>Khả năng Scale-out</h3>
+          <p>Nếu hệ thống chạy trên nhiều instance server (cluster), kết nối WebSocket của user A ở server 1 sẽ không tự truyền được sang user B kết nối ở server 2. Dự án giải quyết bằng <strong>Redis Pub/Sub</strong> làm Message Broker trung gian. Khi server nhận tin nhắn, nó sẽ broadcast tin nhắn đó lên Redis kênh chung, các instance server khác subscribe kênh này sẽ nhận được tin nhắn và đẩy xuống cho client đang kết nối tại instance của mình.</p>
+        </section>
+
+        <!-- Section 6: Chatbot AI RAG -->
+        <section id="doc-chatbot" class="doc-section">
+          <h2>6. Trợ Lý Học Vụ AI RAG (Retrieval-Augmented Generation)</h2>
+          <p>Trợ lý AI tích hợp giúp sinh viên giải đáp thắc mắc về quy chế đào tạo, học phí, và lịch trình. Kiến trúc sử dụng mô hình <strong>RAG</strong> để tránh hiện tượng ảo giác (hallucination) của LLM.</p>
+
+          <div class="diagram-container">
+            <svg width="680" height="280" viewBox="0 0 680 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="660" height="260" rx="12" fill="#151c2c" stroke="#263554" stroke-width="2"/>
+              <text x="340" y="35" fill="#e2e8f0" font-family="Outfit" font-size="16" font-weight="bold" text-anchor="middle">LUỒNG XỬ LÝ CHATBOT AI RAG</text>
+              
+              <!-- Step 1 -->
+              <rect x="30" y="80" width="110" height="60" rx="6" fill="#1e293b" stroke="#3b82f6"/>
+              <text x="85" y="110" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">1. Câu hỏi sinh viên</text>
+              <text x="85" y="125" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">"F học lại thế nào?"</text>
+
+              <!-- Step 2 -->
+              <rect x="160" y="80" width="120" height="60" rx="6" fill="#1e293b" stroke="#3b82f6"/>
+              <text x="220" y="105" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">2. Trích xuất Vector</text>
+              <text x="220" y="122" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">Embedding Service</text>
+
+              <!-- Step 3 -->
+              <rect x="300" y="80" width="130" height="60" rx="6" fill="#1e293b" stroke="#06b6d4"/>
+              <text x="365" y="100" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">3. Cosine Similarity</text>
+              <text x="365" y="115" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">In-Memory matching</text>
+              <text x="365" y="128" fill="#e2e8f0" font-family="Inter" font-size="9" text-anchor="middle">Re-ranking Weights</text>
+
+              <!-- Step 4 -->
+              <rect x="450" y="80" width="110" height="60" rx="6" fill="#1e293b" stroke="#8b5cf6"/>
+              <text x="505" y="105" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">4. Gộp Prompt</text>
+              <text x="505" y="122" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">Question + Context</text>
+
+              <!-- Step 5 -->
+              <rect x="580" y="80" width="80" height="60" rx="6" fill="#1e293b" stroke="#10b981"/>
+              <text x="620" y="105" fill="#e2e8f0" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">5. Groq LLM</text>
+              <text x="620" y="122" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">llama-3.3-70b</text>
+
+              <!-- Final Output -->
+              <rect x="300" y="190" width="360" height="50" rx="6" fill="#0b0f19" stroke="#10b981"/>
+              <text x="480" y="212" fill="#10b981" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">6. Câu trả lời chính xác, tin cậy về quy chế trường</text>
+              <text x="480" y="228" fill="#94a3b8" font-family="Inter" font-size="9" text-anchor="middle">"Theo quy chế, điểm F bắt buộc học lại ở kỳ kế tiếp..."</text>
+
+              <!-- Connections -->
+              <path d="M 140 110 L 160 110" stroke="#e2e8f0" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 280 110 L 300 110" stroke="#e2e8f0" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 430 110 L 450 110" stroke="#e2e8f0" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 560 110 L 580 110" stroke="#e2e8f0" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 620 140 L 620 190" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow)"/>
+            </svg>
+          </div>
+
+          <h3>Cơ chế Reranking phân cấp (Truth-hierarchy re-ranking)</h3>
+          <p>Đặc sản công nghệ của Chatbot là thuật toán re-ranking dựa trên nguồn gốc tài liệu. Các chunks sau khi tính điểm Cosine Similarity sẽ được nhân thêm trọng số tin cậy (Priority Weights):</p>
+          <ul>
+            <li><strong>Thông báo mới nhất của trường (Priority 1):</strong> Trọng số <code>1.0</code></li>
+            <li><strong>Trang của các khoa/phòng ban (Priority 2):</strong> Trọng số <code>0.9</code></li>
+            <li><strong>Thông tin tuyển sinh/ngành học (Priority 3):</strong> Trọng số <code>0.8</code></li>
+            <li><strong>Sổ tay sinh viên (Priority 4):</strong> Trọng số <code>0.7</code></li>
+            <li><strong>Thông tin tham khảo Wikipedia (Priority 5):</strong> Trọng số <code>0.5</code></li>
+          </ul>
+          <p>Điều này đảm bảo khi có xung đột thông tin (ví dụ: quy chế thi thay đổi ở thông báo mới so với sổ tay cũ), AI sẽ ưu tiên thông báo mới nhất để trả lời sinh viên.</p>
+        </section>
+
+        <!-- Section 7: Security -->
+        <section id="doc-security" class="doc-section">
+          <h2>7. Thanh Toán VNPay & Bảo Mật Hệ Thống</h2>
+          
+          <h3>Thanh toán trực tuyến VNPay</h3>
+          <p>Cơ chế tích hợp sử dụng môi trường VNPay Sandbox của ngân hàng NCB. Để chống việc sinh viên thay đổi số tiền thanh toán (thay đổi param URL), hệ thống thực hiện:</p>
+          <ul>
+            <li>Mã hóa SHA512 toàn bộ tham số gửi đi cùng khóa bí mật <code>vnp_HashSecret</code> trên backend tạo ra chữ ký <code>vnp_SecureHash</code>.</li>
+            <li>Khi VNPay phản hồi kết quả về URL callback, backend tính toán lại chữ ký để đối soát chéo. Đồng thời, API IPN kiểm tra số tiền thực trả so với số tiền cần đóng trong hóa đơn (<code>tuition_bills</code>) trước khi cập nhật hóa đơn sang trạng thái <code>COMPLETED</code>.</li>
+          </ul>
+
+          <h3>Cơ chế bảo mật nâng cao</h3>
+          <ul>
+            <li><strong>Stateless JWT lifecycle:</strong> Access Token thời hạn ngắn (15 phút) lưu ở bộ nhớ, Refresh Token thời hạn dài (7 ngày) lưu trong cookie HttpOnly để chống lỗi XSS, kết hợp lưu trữ session ở Redis để có thể chủ động hủy bộ token (revoke) khi logout.</li>
+            <li><strong>Rate Limiting (Bucket4j):</strong> Giới hạn request theo địa chỉ IP để chống brute force tài khoản và chống tấn công từ chối dịch vụ (DDoS) vào cổng đăng ký học phần.</li>
+            <li><strong>AOP Audit logging:</strong> Sử dụng Aspect Oriented Programming để đánh dấu Annotation <code>@Audit</code> lên các phương thức nghiệp vụ quan trọng (như sửa đổi điểm, cập nhật học phí). AOP tự động bắt request, ghi nhận thời gian, tài khoản thực hiện, nội dung thay đổi trước và sau vào bảng <code>audit_logs</code> bất đồng bộ, tránh làm ảnh hưởng hiệu năng xử lý chính.</li>
+          </ul>
+        </section>
+
+        <!-- Section 8: Vòng đời học kỳ -->
+        <section id="doc-vong-doi" class="doc-section">
+          <h2>8. Vòng Đời Một Học Kỳ</h2>
+          <p>Hệ thống hỗ trợ quản lý trọn vẹn chu kỳ hoạt động của một học kỳ đại học qua 9 bước khép kín:</p>
+          <ol>
+            <li><strong>Khởi tạo học kỳ:</strong> Admin mở học kỳ mới, thiết lập thời gian bắt đầu và kết thúc kỳ học.</li>
+            <li><strong>Thiết lập lớp học phần:</strong> Khai báo các lớp học phần tương ứng với môn học trong kỳ, phân công phòng học, tiết học, sĩ số tối đa và gán giảng viên phụ trách.</li>
+            <li><strong>Mở cổng đăng ký:</strong> Cho phép sinh viên đăng ký học phần trực tuyến (xếp hàng bất đồng bộ qua Kafka).</li>
+            <li><strong>Chốt cổng đăng ký học phần:</strong> Khóa các lớp học phần, chuyển trạng thái đăng ký của sinh viên từ <code>PENDING</code> thành <code>REGISTERED</code> và tự động khởi tạo bản ghi bảng điểm (<code>grades</code>) rỗng.</li>
+            <li><strong>Học trong kỳ & Điểm danh:</strong> Giảng viên tiến hành giảng dạy, điểm danh online (PRESENT/ABSENT/LATE) và nhập điểm thành phần chuyên cần, giữa kỳ.</li>
+            <li><strong>Đăng ký thi lại / học cải thiện:</strong> Sinh viên có điểm D/F ở học kỳ trước được quyền đăng ký thi lại hoặc học lại song song.</li>
+            <li><strong>Lập lịch thi & Chia phòng:</strong> Admin xếp ca thi, phòng thi theo môn học. Hệ thống tự động gom sinh viên lớp thường và thi lại để chia vào phòng thi tương ứng với sức chứa.</li>
+            <li><strong>Thi cuối kỳ & Nhập điểm:</strong> Tổ chức thi. Giảng viên chấm thi và nhập điểm thi cuối kỳ hoặc điểm thi lại. Hệ thống tự động tính điểm tổng kết thang 10, quy đổi điểm chữ và hệ 4 bằng JPA Listener.</li>
+            <li><strong>Khóa điểm & Đóng học kỳ:</strong> Giảng viên bấm khóa bảng điểm. Admin thực hiện chạy tác vụ tính toán kết quả học tập kỳ (GPA) và tích lũy toàn khóa (CPA) cho sinh viên, xuất báo cáo ra Excel và đóng học kỳ để lưu trữ.</li>
+          </ol>
+        </section>
+      </main>
+    </div>
+
+    <!-- ================= VIEW 3: Q&A CHEAT SHEET MODE ================= -->
+    <div id="view-qa">
+      <div class="qa-header">
+        <h2>Cẩm Nang Phản Biện & Kịch Bản Đối Đáp</h2>
+        <p>Tổng hợp các câu hỏi hóc búa nhất hội đồng chấm đồ án tốt nghiệp thường hỏi và câu trả lời ghi điểm tuyệt đối.</p>
+      </div>
+
+      <div class="qa-search">
+        <input type="text" id="qa-search-input" onkeyup="searchQA()" placeholder="Nhập từ khóa tìm kiếm câu hỏi (ví dụ: Kafka, Lock, JWT, Redis)...">
+      </div>
+
+      <!-- Category 1 -->
+      <div class="qa-category">
+        <div class="qa-category-title">🌐 Hệ Thống Hàng Đợi Kafka & Concurrency (Xử lý đồng thời)</div>
+        
+        <div class="faq-item">
+          <div class="faq-question">1. Tại sao em lại chọn Apache Kafka cho chức năng đăng ký học phần mà không ghi trực tiếp xuống CSDL?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Đăng ký học phần trong đào tạo tín chỉ là bài toán chịu <strong>tải đỉnh đột biến (peak traffic load)</strong>. Hàng ngàn sinh viên sẽ cùng gửi request lên trong vài giây đầu tiên mở cổng.<br>
+            - Nếu ghi trực tiếp xuống CSDL PostgreSQL, mỗi request sẽ chiếm dụng một connection. Số lượng kết nối đồng thời (Connection Pool) của CSDL có giới hạn (thường là 100-200). Khi vượt quá giới hạn, DB sẽ báo lỗi timeout hoặc sập hoàn toàn, khiến giao dịch bị thất thoát và web không thể truy cập.<br>
+            - <strong>Giải pháp Kafka:</strong> Kafka đóng vai trò là một <strong>bộ đệm chịu tải (Message Buffer)</strong>. Khi sinh viên đăng ký, request được đưa vào Kafka dưới dạng tin nhắn. Backend trả về ngay mã trạng thái <code>202 Accepted</code>. Hệ thống không bị nghẽn luồng kết nối DB. Sau đó, các <strong>Kafka Consumer</strong> sẽ lấy tin nhắn ra xử lý tuần tự phía sau, giúp bảo vệ CSDL khỏi bị quá tải và sập nguồn.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">2. Nếu nhiều sinh viên cùng tranh chấp slot cuối cùng của một lớp học phần, hệ thống giải quyết thế nào để không bị vượt quá sĩ số (Over-enrollment)?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            Để giải quyết bài toán tranh chấp slot cuối (race condition), hệ thống áp dụng đồng thời 2 giải pháp:<br>
+            1. **Kafka Queue**: Đưa các request vào hàng đợi tuần tự. Yêu cầu nào đến trước sẽ được ghi vào Kafka trước.<br>
+            2. **Pessimistic Locking (Khóa bi quan)** trong database: Khi Consumer đọc tin nhắn đăng ký từ Kafka và bắt đầu ghi nhận vào CSDL, nó sẽ thực hiện truy vấn:
+            <code>SELECT current_slots, max_slots FROM class_sections WHERE id = :id FOR UPDATE</code>.<br>
+            Lệnh <code>FOR UPDATE</code> sẽ khóa dòng dữ liệu của lớp học phần đó lại. Mọi transaction khác cố gắng đọc/ghi dòng này đều phải xếp hàng chờ cho đến khi transaction hiện tại hoàn thành (commit hoặc rollback).<br>
+            - Trong block transaction được khóa này, hệ thống kiểm tra: Nếu <code>current_slots < max_slots</code> thì mới thực hiện insert bản ghi <code>enrollment</code> và tăng <code>current_slots</code> lên 1. Nếu đã đầy, transaction rollback và trả kết quả thất bại.<br>
+            Nhờ đó, sĩ số lớp luôn được kiểm soát chính xác 100% không bao giờ bị over-slots.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">3. Chế độ xử lý bất đồng bộ (Asynchronous) của Kafka có thể khiến sinh viên không biết mình đã đăng ký thành công hay chưa. Em giải quyết trải nghiệm này thế nào?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Khi gửi request đăng ký thành công lên hàng đợi Kafka, backend lập tức sinh một mã UUID ngẫu nhiên gọi là <code>requestId</code> và lưu trạng thái đăng ký là <code>PENDING</code> vào Redis/Database, sau đó trả <code>requestId</code> về cho Frontend.<br>
+            - Ở phía Frontend, hệ thống sử dụng cơ chế **Short Polling** (hoặc kết nối WebSocket): Cứ mỗi 1-2 giây, frontend sẽ gọi API <code>GET /api/student/enrollment/status/{requestId}</code> để hỏi trạng thái của request.<br>
+            - Khi Consumer xử lý xong ở phía sau, nó sẽ cập nhật trạng thái của <code>requestId</code> trong Redis/DB thành <code>SUCCESS</code> hoặc <code>FAILED</code> kèm lý do cụ thể (như: Trùng lịch học, thiếu môn tiên quyết, lớp đầy).<br>
+            - Frontend nhận được trạng thái cuối cùng này sẽ dừng hỏi và hiển thị thông báo đẹp mắt (Toast hoặc Modal) cho sinh viên biết kết quả chính thức.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">4. Điều gì xảy ra nếu hệ thống đang chạy thì bị mất điện hoặc sập nguồn giữa chừng? Các tin nhắn đăng ký môn học trong Kafka có bị mất không?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Tin nhắn đăng ký trong Kafka **không bị mất** vì Kafka được thiết kế để ghi dữ liệu trực tiếp xuống đĩa cứng (Commit Log) thay vì lưu trên RAM như các hàng đợi in-memory khác.<br>
+            - Khi tin nhắn được gửi thành công đến Kafka, nó đã được lưu trữ bền vững (Persistent).<br>
+            - Hệ thống cấu hình cơ chế commit offset thủ công (Manual Acknowledge): Consumer chỉ xác nhận đã xử lý tin nhắn với Kafka (commit offset) **sau khi** đã ghi nhận thành công bản ghi đăng ký vào PostgreSQL DB.<br>
+            - Nếu Consumer đang xử lý nửa chừng mà sập nguồn, offset chưa được commit. Khi hệ thống khởi động lại, Consumer sẽ đọc lại tin nhắn đó từ offset chưa commit gần nhất và xử lý lại, đảm bảo không bị thất thoát bất cứ giao dịch nào của sinh viên.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 2 -->
+      <div class="qa-category">
+        <div class="qa-category-title">🔑 Bảo Mật, JWT Token & Redis</div>
+        
+        <div class="faq-item">
+          <div class="faq-question">5. Tại sao em lại lưu trữ Refresh Token trong Cookie HttpOnly mà không lưu trong LocalStorage như Access Token?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - **LocalStorage** có thể truy cập được bằng JavaScript của trình duyệt. Nếu trang web bị tấn công **XSS (Cross-Site Scripting)** (ví dụ: hacker chèn được một đoạn mã script độc hại qua ô chat hoặc comment), mã script đó có thể đọc trộm Refresh Token từ LocalStorage và gửi về server của hacker.<br>
+            - **HttpOnly Cookie** là cơ chế bảo mật của trình duyệt, ngăn chặn JavaScript đọc/ghi cookie này. Trình duyệt sẽ tự động đính kèm cookie này lên các request HTTP gửi đến domain của server. Do đó, hacker không thể lấy trộm Refresh Token bằng mã lệnh JS, giúp bảo vệ an toàn cho phiên đăng nhập lâu dài của người dùng.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">6. Bản chất JWT là stateless (không trạng thái), làm thế nào em thực hiện chức năng Đăng xuất (Logout) thu hồi token lập tức khi token chưa hết hạn?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Đúng là JWT nguyên bản có tính stateless, server không cần lưu trữ trạng thái token nên không thể chủ động thu hồi trước khi nó tự hết hạn (expire).<br>
+            - Để giải quyết điểm yếu này, hệ thống kết hợp sử dụng **Redis**: Khi người dùng đăng nhập thành công, Refresh Token được lưu trữ vào Redis với key là username/userId.<br>
+            - Khi người dùng bấm **Đăng xuất (Logout)**, backend sẽ xóa Refresh Token tương ứng khỏi Redis. Đồng thời, Access Token cũ (chỉ có thời hạn 15 phút) sẽ bị đưa vào một danh sách đen (Blacklist) trong Redis với thời gian sống bằng đúng thời gian còn lại của Access Token đó.<br>
+            - Khi có request gửi lên, Filter bảo mật sẽ kiểm tra Access Token đó trong Blacklist của Redis. Nếu tìm thấy, request bị từ chối ngay lập tức với lỗi <code>401 Unauthorized</code>, hoàn thành việc thu hồi token chủ động.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">7. Cơ chế Rate Limiting bằng Bucket4j hoạt động ra sao và em cấu hình nó ở đâu trong ứng dụng?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - **Bucket4j** hoạt động dựa trên thuật toán **Token Bucket (Thùng thẻ bài)**. Mỗi IP truy cập được cấp một chiếc thùng chứa số lượng thẻ nhất định (ví dụ: tối đa 60 thẻ). Mỗi request gửi lên sẽ tiêu tốn 1 thẻ. Thẻ mới được tự động nạp đầy lại vào thùng theo tốc độ cấu hình sẵn (ví dụ: 10 thẻ/giây). Nếu sinh viên gửi request quá nhanh làm cạn thẻ trong thùng, request sẽ bị chặn và trả về mã lỗi <code>429 Too Many Requests</code>.<br>
+            - Trong hệ thống, Rate Limiting được triển khai dưới dạng một **Spring Security Filter** (hoặc một Interceptor) nằm ở lớp ngoài cùng của luồng xử lý HTTP, chặn request ngay từ IP để tránh tiêu tốn tài nguyên xử lý của Controller phía sau.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 3 -->
+      <div class="qa-category">
+        <div class="qa-category-title">💬 WebSocket Chat & Realtime Scaling</div>
+        
+        <div class="faq-item">
+          <div class="faq-question">8. Làm thế nào em xác thực quyền truy cập của người dùng đối với các phòng chat WebSocket?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - WebSocket không gửi kèm Header HTTP tiêu chuẩn trên từng tin nhắn sau khi đã thiết lập kết nối, vì thế việc xác thực quyền truy cập cần thực hiện qua bộ lọc chặn (Interceptors):<br>
+            1. **Xác thực lúc kết nối (Connect):** Client gửi JWT token thông qua query parameter khi thực hiện bắt tay WebSocket (Handshake). Một <code>WebSocketHandshakeInterceptor</code> sẽ parse JWT này để xác định danh tính người dùng. Nếu token không hợp lệ hoặc hết hạn, kết nối bị từ chối ngay lập tức.<br>
+            2. **Xác thực lúc đăng ký nhận tin (Subscribe):** Khi người dùng gửi lệnh SUBSCRIBE đến địa chỉ <code>/topic/chatroom/{chatRoomId}</code>, một <code>WebSocketChannelInterceptor</code> sẽ can thiệp. Interceptor này truy vấn cơ sở dữ liệu/Redis để kiểm tra xem UserId hiện tại có nằm trong bảng thành viên <code>chat_room_members</code> của phòng chat đó hay không. Nếu không, lệnh Subscribe bị hủy bỏ, ngăn chặn việc đọc trộm tin nhắn phòng người khác.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">9. Nếu ứng dụng chat chạy trên môi trường Clustering (nhiều server backend chạy song song sau Load Balancer), làm sao tin nhắn gửi từ client kết nối ở Server 1 chuyển được đến client kết nối ở Server 2?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Nếu không cấu hình bổ sung, tin nhắn gửi lên Server 1 chỉ được phân phối cho các client đang giữ kết nối WebSocket trực tiếp đến Server 1.<br>
+            - Để giải quyết bài toán scale-out này, hệ thống sử dụng **Redis Pub/Sub** làm cầu nối broker trung gian:<br>
+            - Khi Server 1 nhận được tin nhắn chat từ client, thay vì chỉ gửi trực tiếp xuống WebSocket nội bộ, nó sẽ xuất bản (Publish) tin nhắn đó lên một kênh chung của Redis (ví dụ kênh: <code>"chat-messages"</code>).<br>
+            - Tất cả các instance backend (Server 1, Server 2, Server 3) đều subscribe kênh Redis này ngay khi khởi động. Khi Redis broadcast tin nhắn mới, cả Server 1 và Server 2 đều nhận được. Server 2 sẽ tìm trong danh sách WebSocket session cục bộ của mình xem có ai đang subscribe phòng chat đó không và đẩy tin xuống, đảm bảo việc truyền tin thông suốt toàn hệ thống.
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4 -->
+      <div class="qa-category">
+        <div class="qa-category-title">🤖 Trợ Lý AI Chatbot RAG</div>
+        
+        <div class="faq-item">
+          <div class="faq-question">10. Em hãy giải thích cơ chế hoạt động của hệ thống Chatbot RAG trong đồ án? Tại sao không dùng trực tiếp API của OpenAI hay Groq cho nhanh?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - RAG viết tắt của **Retrieval-Augmented Generation (Thế hệ tăng cường tìm kiếm)**.<br>
+            - Nếu dùng trực tiếp API của LLM (như ChatGPT, Llama), mô hình chỉ trả lời được bằng tri thức chung có sẵn trong quá trình huấn luyện của nó. Nó hoàn toàn không biết thông tin nội bộ của Đại học Thăng Long (như thời hạn nộp học phí học kỳ này, quy chế tính điểm F của trường, các ngành đào tạo cụ thể). Nếu hỏi, LLM sẽ tự bịa ra câu trả lời sai lệch (ảo giác AI).<br>
+            - **Cơ chế hoạt động của RAG trong đồ án:**<br>
+            1. **Tri thức hóa văn bản:** Các file quy chế, thông báo được Admin cắt thành các đoạn nhỏ (Knowledge Chunks) và chuyển đổi thành các chuỗi số (Vector Embeddings) thông qua mô hình Embedding, sau đó lưu vào CSDL PostgreSQL.<br>
+            2. **Tìm kiếm ngữ cảnh:** Khi sinh viên hỏi câu hỏi (ví dụ: "Bị điểm F môn học thì làm sao?"), hệ thống chuyển câu hỏi đó thành vector và tính toán độ tương đồng Cosine Similarity in-memory với các vector tri thức trong DB để lọc ra 5 đoạn văn bản liên quan nhất.<br>
+            3. **Tạo prompt ngữ cảnh:** Hệ thống ghép 5 đoạn văn bản đó làm ngữ cảnh (Context) cùng với câu hỏi ban đầu tạo thành một System Prompt gửi đến Groq API (sử dụng mô hình Llama 3.3).<br>
+            4. **LLM tổng hợp câu trả lời:** Llama 3.3 đọc ngữ cảnh được cung cấp và viết câu trả lời chính xác, đúng sự thật theo quy định của nhà trường.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">11. Cơ chế reranking phân cấp độ tin cậy (Truth-hierarchy re-ranking) giải quyết vấn đề gì trong chatbot?</div>
+          <div class="faq-answer">
+            <strong>Trả lời:</strong><br>
+            - Trong môi trường đại học, các quy định có thể thay đổi theo thời gian. Ví dụ, trong Sổ tay sinh viên xuất bản năm 2024 quy định học phí thi lại là 100k/môn, nhưng Thông báo khẩn của nhà trường năm 2026 tăng lên thành 150k/môn.<br>
+            - Nếu chỉ tính độ tương đồng cosine thông thường, hai đoạn văn bản này đều có điểm tương đồng rất cao với câu hỏi "Học phí thi lại là bao nhiêu?". AI sẽ bối rối hoặc trả lời cả hai con số.<br>
+            - **Giải pháp:** Hệ thống đưa vào trọng số ưu tiên <code>Priority Weights</code> dựa trên nguồn gốc tài liệu. Các chunks trích xuất từ **Thông báo mới (Priority 1)** được nhân trọng số 1.0 (giữ nguyên điểm similarity), trong khi chunks trích xuất từ **Sổ tay sinh viên (Priority 4)** chỉ nhân trọng số 0.7 (giảm điểm similarity xuống).<br>
+            Nhờ đó, thông tin chính thống và mới nhất luôn được đưa lên đầu ngữ cảnh cung cấp cho LLM, giúp chatbot đưa ra câu trả lời chuẩn xác nhất theo dòng thời gian.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW 4: GLOSSARY MODE ================= -->
+    <div id="view-glossary">
+      <div class="qa-header">
+        <h2>Giải Thích Thuật Ngữ Chuyên Ngành</h2>
+        <p>Giúp nắm rõ các định nghĩa, vai trò thực tế và cách trả lời ghi điểm tuyệt đối trước Hội đồng bảo vệ đồ án.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4 style="color: var(--secondary); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>⚡</span> TanStack Query (React Query)
+          </h4>
+          <p><strong>Định nghĩa:</strong> Thư viện quản lý các trạng thái bất đồng bộ (Async State) như fetching, caching, đồng bộ và làm mới dữ liệu giữa Client (React) và API Server.</p>
+          <p><strong>Vai trò trong đồ án:</strong> Quản lý toàn bộ dữ liệu gọi từ API (thời khóa biểu, hóa đơn học phí, danh sách điểm). React Query lưu trữ dữ liệu vào bộ nhớ đệm (cache). Khi người dùng chuyển trang rồi quay lại, dữ liệu được lấy ngay từ cache ra hiển thị lập tức mà không phải gọi lại API, tăng tốc độ trải nghiệm web rõ rệt.</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>Server State</code>, <code>Caching</code>, <code>Stale-While-Revalidate</code>, <code>Background Refetching</code>.</p>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--secondary); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>🗺️</span> TanStack Router
+          </h4>
+          <p><strong>Định nghĩa:</strong> Thư viện quản lý định tuyến chuyển trang thế hệ mới cho React, hỗ trợ định tuyến dựa trên cấu trúc file (File-based Routing) và an toàn kiểu dữ liệu (Fully Type-Safe Routing).</p>
+          <p><strong>Vai trò trong đồ án:</strong> Quản lý bản đồ các trang của ứng dụng (Student Dashboard, Admin Panel, Registration...). Tính năng Type-Safe giúp compiler báo lỗi ngay lập tức khi code nếu viết sai URL hoặc truyền thiếu tham số, triệt tiêu 100% lỗi broken links (liên kết hỏng) lúc chạy thực tế.</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>Type-Safe Routing</code>, <code>File-based Route</code>, <code>Prefetching</code>, <code>Client-side Navigation</code>.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4 style="color: var(--accent); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>🧠</span> AI RAG (Retrieval-Augmented Generation)
+          </h4>
+          <p><strong>Định nghĩa:</strong> Kỹ thuật kết hợp mô hình ngôn ngữ lớn (LLM Llama 3.3) với một hệ thống truy xuất dữ liệu độc lập. Hệ thống đi tìm ngữ cảnh liên quan trong CSDL trước, sau đó kẹp dữ liệu này cùng câu hỏi để LLM viết câu trả lời.</p>
+          <p><strong>Vai trò trong đồ án:</strong> Trợ lý AI hỗ trợ tư vấn quy chế. Thay vì để Llama tự đoán mò quy định của Thăng Long (dễ bị ảo giác AI), RAG tìm kiếm chính xác điều khoản trong CSDL văn bản của trường và hướng dẫn AI viết câu trả lời hoàn toàn chính xác theo quy định thực tế.</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>Hallucination Control</code>, <code>Vector Embedding</code>, <code>Cosine Similarity</code>, <code>Knowledge Chunks</code>.</p>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--purple); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>✂️</span> Aspect Oriented Programming (AOP)
+          </h4>
+          <p><strong>Định nghĩa:</strong> Lập trình hướng khía cạnh. Phương pháp lập trình tách các nghiệp vụ bổ trợ lặp đi lặp lại ở nhiều nơi (như kiểm tra bảo mật, ghi nhật ký log) ra khỏi mã nguồn nghiệp vụ chính.</p>
+          <p><strong>Vai trò trong đồ án:</strong> Dùng để ghi vết Audit Logs (nhật ký sửa điểm, khóa điểm). Thay vì viết code kết nối DB để lưu log ở mọi Controller/Service nghiệp vụ, AOP tách phần code lưu log ra một khía cạnh riêng (Aspect) và chèn tự động qua Annotation <code>@Audit</code>, giúp code nghiệp vụ cực kỳ sạch sẽ.</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>Cross-cutting concerns</code>, <code>Aspect</code>, <code>Advice</code>, <code>Clean Code (Separation of Concerns)</code>.</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h4 style="color: var(--primary); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>📁</span> Phiên bản hóa CSDL (Flyway Migration)
+          </h4>
+          <p><strong>Định nghĩa:</strong> Công cụ theo dõi, quản lý và áp dụng lịch sử thay đổi cấu trúc bảng (database schema) theo thời gian thông qua các file SQL đánh số phiên bản thứ tự (V1, V2, V3...).</p>
+          <p><strong>Vai trò trong đồ án:</strong> Khi dự án thay đổi cấu trúc bảng (ví dụ thêm lịch schedules, thêm cột điểm thi lại), ta viết script SQL. Flyway tự động phát hiện và chạy script này khi backend Spring Boot khởi động, giữ cho database của tất cả máy dev và server deploy luôn đồng bộ 100%.</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>Database Version Control</code>, <code>Schema Migration</code>, <code>Flyway Schema History</code>.</p>
+        </div>
+
+        <div class="card">
+          <h4 style="color: var(--warning); font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <span>🔒</span> Pessimistic Lock (Khóa bi quan)
+          </h4>
+          <p><strong>Định nghĩa:</strong> Cơ chế khóa độc quyền dòng dữ liệu trong database khi một transaction truy cập vào, chặn tất cả các request song song khác không được đọc/ghi dữ liệu đó cho đến khi transaction đầu tiên commit.</p>
+          <p><strong>Vai trò trong đồ án:</strong> Áp dụng tại luồng đăng ký học phần (Kafka Consumer). Khi Consumer bắt đầu kiểm tra sĩ số và ghi nhận sinh viên vào lớp, nó dùng <code>SELECT FOR UPDATE</code> để khóa dòng lớp học phần đó lại. Tránh tình trạng race condition (nhiều request cùng ghi nhận slot trống cuối cùng dẫn đến vượt sĩ số tối đa).</p>
+          <p style="font-size:12.5px; color:var(--accent);"><strong>Keyword ăn điểm:</strong> <code>SELECT FOR UPDATE</code>, <code>Race Condition Prevention</code>, <code>Data Integrity</code>, <code>Transaction Isolation</code>.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript to Handle Interactions -->
+  <script>
+    // Presenter Slides Database
+    const slides = [
+      {
+        number: "01 / 10",
+        topic: "Giới thiệu đề tài",
+        title: "XÂY DỰNG CỔNG THÔNG TIN TÍCH HỢP & QUẢN LÝ ĐÀO TẠO <br><span>UMS TLU PORTAL</span>",
+        content: `
+          <div style="margin-top: 20px; font-size: 16px;">
+            <p style="margin-bottom: 20px;"><strong>Hệ thống Quản lý Đào tạo Đại học (UMS)</strong> thiết kế toàn diện phục vụ 3 nhóm đối tượng mục tiêu: Sinh viên, Giảng viên và Quản trị viên Trường Đại học Thăng Long.</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px;">
+              <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border-top: 3px solid var(--primary);">
+                <h4 style="color: var(--primary); margin-bottom: 8px;">🎓 Student Portal</h4>
+                <p style="font-size: 13px; color: var(--text-muted);">Đăng ký học phần, đóng học phí VNPay, tra cứu kết quả GPA/CPA, thời khóa biểu, lịch thi và chat trực tiếp.</p>
+              </div>
+              <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border-top: 3px solid var(--secondary);">
+                <h4 style="color: var(--secondary); margin-bottom: 8px;">👨‍🏫 Teacher Portal</h4>
+                <p style="font-size: 13px; color: var(--text-muted);">Điểm danh điện tử theo buổi học, nhập điểm trực tiếp, khóa sổ bảng điểm lớp học phần.</p>
+              </div>
+              <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border-top: 3px solid var(--accent);">
+                <h4 style="color: var(--accent); margin-bottom: 8px;">👑 Admin Portal</h4>
+                <p style="font-size: 13px; color: var(--text-muted);">Thiết lập học kỳ, mở lớp học phần, xếp phòng thi, quản lý AI knowledge base và kiểm tra nhật ký hệ thống.</p>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Tác nhân chính: Student, Teacher, Admin</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Kính thưa Hội đồng tuyển chọn đề tài tốt nghiệp, hôm nay em xin phép được trình bày về đề tài xây dựng hệ thống Cổng thông tin tích hợp và Quản lý đào tạo UMS cho trường Đại học Thăng Long."</p>
+          <p>"Hệ thống UMS của tụi em được xây dựng để số hóa hoàn chỉnh quy trình giảng dạy - học tập của trường, tối ưu hóa các tương tác trực tiếp của 3 nhóm tác nhân chính bao gồm Sinh viên, Giảng viên và Quản trị viên Phòng Đào tạo."</p>
+        `
+      },
+      {
+        number: "02 / 10",
+        topic: "Vấn đề & Giải pháp",
+        title: "ĐẶT VẤN ĐỀ & <span>GIÁ TRỊ THỰC TIỄN</span> CỦA ĐỒ ÁN",
+        content: `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px;">
+            <div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid var(--primary); padding: 20px; border-radius: 10px;">
+              <h4 style="color: var(--primary); margin-bottom: 12px; font-weight: bold;">🔴 Điểm nghẽn cũ (As-Is)</h4>
+              <ul style="padding-left: 15px; font-size: 13.5px; color: var(--text-muted);">
+                <li><strong>Sập CSDL khi đăng ký học phần:</strong> Quá tải kết nối DB khi hàng ngàn sinh viên truy cập cùng lúc.</li>
+                <li><strong>Đóng học phí thủ công:</strong> Sinh viên xếp hàng tại phòng tài vụ, kế toán đối soát thủ công mất 2-3 ngày.</li>
+                <li><strong>Gian lận điểm số:</strong> Điểm số lưu file excel dễ bị sửa đổi trái phép sau kỳ thi.</li>
+                <li><strong>Quá tải giải đáp học vụ:</strong> Tổng đài hỗ trợ liên tục nghẽn vì các câu hỏi quy chế lặp đi lặp lại.</li>
+              </ul>
+            </div>
+            <div style="background-color: rgba(16, 185, 129, 0.05); border: 1px solid var(--success); padding: 20px; border-radius: 10px;">
+              <h4 style="color: var(--success); margin-bottom: 12px; font-weight: bold;">🟢 Giải pháp đột phá (To-Be)</h4>
+              <ul style="padding-left: 15px; font-size: 13.5px;">
+                <li><strong>Hàng đợi Kafka bất đồng bộ:</strong> Tiếp nhận request tức thì, giải quyết triệt để sập DB.</li>
+                <li><strong>Thanh toán VNPay Sandbox:</strong> Khớp nối tự động tức thời qua Webhook đối soát IPN.</li>
+                <li><strong>Khóa điểm & AOP Audit:</strong> Chốt quyền sửa đổi, tự động ghi vết mọi thao tác thay đổi dữ liệu.</li>
+                <li><strong>Trợ lý AI RAG học vụ:</strong> Hỏi đáp quy chế thông minh theo thời gian thực dựa trên tài liệu trường.</li>
+              </ul>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Từ khóa: Tải đỉnh, Đối soát tự động, Audit Logs, RAG Chatbot</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Điểm xuất phát lớn nhất của đồ án là giải quyết bài toán tải đỉnh cực lớn khi sinh viên đăng ký môn học trực tuyến. Việc sập web liên tục gây ức chế cho sinh viên và áp lực lớn cho nhà trường."</p>
+          <p>"Hệ thống mới giải quyết vấn đề sập DB bằng hàng đợi Apache Kafka, tự động hóa đóng tiền qua VNPay, chống sửa điểm bằng cơ chế khóa bảng điểm tích hợp ghi vết Audit Log và đưa Trợ lý AI nạp sẵn quy chế đào tạo vào hỗ trợ giải đáp học vụ 24/7."</p>
+        `
+      },
+      {
+        number: "03 / 10",
+        topic: "Kiến trúc hệ thống",
+        title: "KIẾN TRÚC MÔ HÌNH VÀ <span>CÔNG NGHỆ ÁP DỤNG</span>",
+        content: `
+          <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; align-items: center;">
+            <div style="background-color: var(--bg-main); padding: 15px; border-radius: 10px; border: 1px solid var(--border);">
+              <h4 style="margin-bottom: 10px;">Sơ đồ Luồng Hoạt động Tổng quan</h4>
+              <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">Kiến trúc 3 lớp (Layered Architecture) kết hợp mô hình Hướng sự kiện (Event-Driven Architecture) với Apache Kafka.</p>
+              <div style="padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; text-align: center; font-size: 12px; font-family: var(--font-code);">
+                React Frontend (Client) <span style="color:var(--secondary)">──[REST / Ws]──&gt;</span> Spring Security Gateway <span style="color:var(--success)">──&gt;</span> Controllers <span style="color:var(--accent)">──&gt;</span> Services <span style="color:var(--success)">──&gt;</span> Repositories <span style="color:var(--primary)">──&gt;</span> PostgreSQL / Redis / Kafka
+              </div>
+            </div>
+            <div>
+              <h4 style="margin-bottom: 12px; font-size: 14px;">Tech Stack chính:</h4>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="background: var(--bg-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-family:var(--font-code);">☕ Backend: Spring Boot, Java 17</span>
+                <span style="background: var(--bg-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-family:var(--font-code);">⚛️ Frontend: React, TanStack Start</span>
+                <span style="background: var(--bg-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-family:var(--font-code);">🗄️ Database: PostgreSQL, Redis</span>
+                <span style="background: var(--bg-main); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px; font-family:var(--font-code);">📦 Event Broker: Apache Kafka</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Mô hình: Client-Server, RESTful API, Event-Driven</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Hệ thống của chúng em áp dụng kiến trúc 3 lớp tiêu chuẩn: Controller tiếp nhận API, Service xử lý business logic và Repository tương tác DB."</p>
+          <p>"Đặc biệt, để nâng cao hiệu năng và độ ổn định, hệ thống kết hợp Caching Redis cho dữ liệu tĩnh và hàng đợi Apache Kafka để trung chuyển các message bất đồng bộ."</p>
+        `
+      },
+      {
+        number: "04 / 10",
+        topic: "Cơ sở dữ liệu",
+        title: "THIẾT KẾ CƠ SỞ DỮ LIỆU & <span>TÍNH TOÀN VẸN</span>",
+        content: `
+          <div style="font-size: 13.5px;">
+            <p style="margin-bottom: 15px;">Dữ liệu gồm 31 bảng quan hệ chặt chẽ. Dưới đây là các quan hệ then chốt đảm bảo dữ liệu đào tạo luôn nhất quán:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+              <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                <h5 style="color:var(--accent); font-weight:bold; margin-bottom: 8px;">1. Phân cấp Học kỳ & Lớp học phần</h5>
+                <p style="color:var(--text-muted); font-size: 12.5px;">Một <code>semester</code> có thể mở nhiều <code>class_section</code>. Mỗi lớp có lịch học nhiều buổi thông qua bảng trung gian <code>class_section_schedules</code> liên kết với <code>room</code> và <code>period</code>.</p>
+              </div>
+              <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+                <h5 style="color:var(--accent); font-weight:bold; margin-bottom: 8px;">2. Điểm số tự động quy đổi</h5>
+                <p style="color:var(--text-muted); font-size: 12.5px;">Bảng <code>grades</code> liên kết 1-1 với <code>enrollment</code>. Điểm số thành phần (10-30-60) khi được nhập sẽ tự động tính điểm tổng kết và quy đổi điểm chữ (A-F, thang 4) qua JPA Listener.</p>
+              </div>
+            </div>
+            <div style="margin-top: 15px; padding: 10px; background-color: rgba(245, 158, 11, 0.05); border-left: 3px solid var(--warning); border-radius: 4px;">
+              <strong>Flyway Migration:</strong> Toàn bộ cấu trúc cơ sở dữ liệu được phiên bản hóa và chạy migration tự động qua Flyway SQL Scripts từ V1 đến V6, giúp quản lý cấu trúc bảng an toàn trên môi trường production.
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Flyway DB Migration, JPA Listener, 1-N, 1-1 Relations</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Thiết kế DB của chúng em tuân thủ nghiêm ngặt chuẩn hóa dữ liệu, giải quyết được các quan hệ phức tạp như lớp học phần có lịch học nhiều ngày trong tuần bằng bảng schedules."</p>
+          <p>"Hệ thống áp dụng Flyway Migration để kiểm soát phiên bản database, giúp đội ngũ lập trình viên dễ dàng đồng bộ cấu trúc bảng mà không lo xung đột."</p>
+        `
+      },
+      {
+        number: "05 / 10",
+        topic: "Điểm sáng Công nghệ 1",
+        title: "ĐĂNG KÝ HỌC PHẦN QUA <span>HÀNG ĐỢI KAFKA</span>",
+        content: `
+          <div style="font-size: 13.5px;">
+            <p style="margin-bottom: 12px;">Giải quyết bài toán tải đỉnh bằng cơ chế xử lý bất đồng bộ:</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="background:var(--secondary); color:white; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:bold;">1</span>
+                <p>Sinh viên gửi request -> Server kiểm tra cổng đăng ký -> Gửi tin nhắn vào Kafka -> Trả ngay mã <strong>202 Accepted</strong> và <code>requestId</code> về Client (FE).</p>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="background:var(--secondary); color:white; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:bold;">2</span>
+                <p>Consumer đọc Kafka tuần tự -> Thực hiện <strong>Pessimistic Lock</strong> (<code>FOR UPDATE</code>) trên DB để chốt slot an toàn, chống race condition.</p>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <span style="background:var(--secondary); color:white; border-radius:50%; width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:bold;">3</span>
+                <p>Client dùng <code>requestId</code> để Polling hỏi kết quả từ Redis. Trả kết quả Thành công/Thất bại tức thời sau khi Consumer cập nhật.</p>
+              </div>
+            </div>
+            <div style="background-color:rgba(59, 130, 246, 0.05); padding: 10px; border-radius: 6px; font-family:var(--font-code); font-size:12px; border:1px solid var(--border);">
+              Redis Idempotency Check: Lưu requestId để chống gửi trùng lặp request đăng ký (Double submit).
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Khóa bi quan (Pessimistic Lock), HTTP 202 Accepted, Short Polling</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Đây là điểm sáng kỹ thuật lớn nhất của đồ án. Khi đăng ký học phần, request không ghi thẳng vào DB mà nạp vào Kafka broker. Client nhận phản hồi 202 Accepted ngay lập tức."</p>
+          <p>"Dưới database, Consumer xử lý đơn luồng hoặc sử dụng khóa bi quan Pessimistic Lock trên dòng lớp học phần để đảm bảo số slot trống không bị âm, loại bỏ tuyệt đối lỗi over-registration."</p>
+        `
+      },
+      {
+        number: "06 / 10",
+        topic: "Điểm sáng Công nghệ 2",
+        title: "ĐỘNG CƠ CHAT REAL-TIME <span>WEBSOCKET & REDIS</span>",
+        content: `
+          <div style="font-size: 13.5px;">
+            <p style="margin-bottom: 12px;">Kênh chat hỗ trợ giao tiếp giữa Sinh viên - Giảng viên trong lớp học phần:</p>
+            <ul style="padding-left: 15px; margin-bottom: 15px;">
+              <li><strong>WebSocket STOMP:</strong> Thiết lập kết nối hai chiều ổn định, giảm tải overhead HTTP.</li>
+              <li><strong>Bảo mật phân quyền:</strong> Interceptor chặn luồng Subscribe của WebSocket, kiểm tra quyền hạn của User đối với ChatRoom trước khi cho phép nhận tin.</li>
+              <li><strong>Scale-out qua Redis Pub/Sub:</strong> Đồng bộ tin nhắn giữa các instance backend khi chạy mô hình cluster sau Load Balancer.</li>
+            </ul>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div style="background-color: var(--bg-main); padding: 10px; border-radius: 6px; border-left: 3px solid var(--accent);">
+                <strong>Trạng thái tin nhắn</strong><br><span style="font-size:11px; color:var(--text-muted);">SENT (đã gửi) -> DELIVERED (đã nhận) -> READ (đã đọc)</span>
+              </div>
+              <div style="background-color: var(--bg-main); padding: 10px; border-radius: 6px; border-left: 3px solid var(--accent);">
+                <strong>Typing Indicator</strong><br><span style="font-size:11px; color:var(--text-muted);">Hiển thị trạng thái "đang soạn tin..." của thành viên khác.</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">WebSocket STOMP, Channel Interceptor, Redis Pub/Sub</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Hệ thống chat realtime sử dụng thư viện SockJS và giao thức STOMP. Để đảm bảo an toàn thông tin, chúng em viết các Channel Interceptor chặn tất cả yêu cầu subscribe."</p>
+          <p>"Khi chạy ứng dụng trên nhiều server, chúng em dùng Redis Pub/Sub làm cầu nối truyền tin giữa các server, giúp hệ thống có khả năng mở rộng ngang (Horizontal Scale) mượt mà."</p>
+        `
+      },
+      {
+        number: "07 / 10",
+        topic: "Điểm sáng Công nghệ 3",
+        title: "TRỢ LÝ HỌC VỤ <span>AI CHATBOT RAG</span>",
+        content: `
+          <div style="font-size: 13.5px;">
+            <p style="margin-bottom: 15px;">Chatbot tự động hỗ trợ giải đáp quy chế đào tạo, sổ tay sinh viên dựa trên kỹ thuật **Retrieval-Augmented Generation**:</p>
+            <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 15px;">
+              <div style="background-color: var(--bg-main); padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
+                <h5 style="color:var(--accent); margin-bottom: 6px;">Quy trình xử lý RAG:</h5>
+                <ol style="padding-left:15px; font-size:12px; color:var(--text-muted);">
+                  <li>Sinh viên gửi câu hỏi -> Convert thành Vector.</li>
+                  <li>Tìm kiếm Cosine Similarity in-memory trong DB.</li>
+                  <li>Áp dụng trọng số <strong>Truth-hierarchy re-ranking</strong>.</li>
+                  <li>Nhúng Context liên quan vào Prompt gửi Groq API (Llama 3.3).</li>
+                  <li>AI phản hồi chuẩn xác theo văn bản quy chế trường.</li>
+                </ol>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+                <span style="background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 5px 10px; border-radius: 20px; font-size: 11px; text-align: center; font-weight: bold;">Không bị ảo giác (No Hallucination)</span>
+                <span style="background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); padding: 5px 10px; border-radius: 20px; font-size: 11px; text-align: center; font-weight: bold;">In-Memory Cosine Similarity</span>
+                <span style="background: rgba(139, 92, 246, 0.1); border: 1px solid var(--purple); color: var(--purple); padding: 5px 10px; border-radius: 20px; font-size: 11px; text-align: center; font-weight: bold;">Llama-3.3-70b-versatile</span>
+              </div>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Groq API, Cosine Similarity, Reranking, Vector Embedding</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Thay vì dùng chatbot tĩnh hoặc IF-ELSE thông thường, đồ án tích hợp Trợ lý AI dựa trên kiến trúc RAG với mô hình Llama-3.3 chạy qua API của Groq cho tốc độ phản hồi cực nhanh."</p>
+          <p>"Chúng em thực hiện thuật toán tính độ tương đồng Cosine ngay trên bộ nhớ Java để lấy context chuẩn nhất. Kết hợp cơ chế reranking phân cấp độ tin cậy để thông báo mới nhất luôn có điểm ưu tiên cao hơn sổ tay cũ."</p>
+        `
+      },
+      {
+        number: "08 / 10",
+        topic: "Thanh toán & Bảo mật",
+        title: "THANH TOÁN VNPAY & <span>BẢO MẬT HỆ THỐNG</span>",
+        content: `
+          <div style="font-size: 13.5px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+              <h5 style="color:var(--primary); margin-bottom: 8px;">💳 Đối soát học phí VNPay</h5>
+              <ul style="padding-left:15px; font-size:12px; color:var(--text-muted);">
+                <li>Tạo link thanh toán mã hóa HMAC-SHA512.</li>
+                <li>Verify chữ ký SHA512 khi nhận Callback / IPN.</li>
+                <li>Đối soát chéo số tiền thực trả trước khi chuyển bill sang <code>COMPLETED</code>.</li>
+              </ul>
+            </div>
+            <div style="background-color: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
+              <h5 style="color:var(--secondary); margin-bottom: 8px;">🔒 Bảo mật đa lớp</h5>
+              <ul style="padding-left:15px; font-size:12px; color:var(--text-muted);">
+                <li>JWT stateless: Access Token (15m) + Refresh Token trong cookie HttpOnly chống XSS.</li>
+                <li>Rate Limiting (Bucket4j) ngăn chặn brute force.</li>
+                <li><strong>AOP Audit Log:</strong> Ghi nhật ký mọi hành vi sửa điểm thông qua AOP <code>@Audit</code>.</li>
+              </ul>
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">HMAC-SHA512, HttpOnly Cookie, AOP AspectJ, Bucket4j</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Hệ thống liên kết với cổng thanh toán VNPay Sandbox. Chữ ký HMAC-SHA512 được sinh ra ở backend và xác thực nghiêm ngặt khi nhận callback để đảm bảo sinh viên không thể chỉnh sửa số tiền gửi đi."</p>
+          <p>"Về bảo mật, chúng em lưu Refresh Token ở cookie HttpOnly để chặn lỗi XSS. Ngoài ra, việc dùng AOP AspectJ giúp hệ thống tự động ghi lại lịch sử thao tác sửa điểm của giảng viên mà không cần viết lặp đi lặp lại code ghi logs."</p>
+        `
+      },
+      {
+        number: "09 / 10",
+        topic: "Luồng hoạt động & Demo",
+        title: "VÒNG ĐỜI HỌC KỲ & <span>KỊCH BẢN DEMO</span>",
+        content: `
+          <div style="font-size: 13px;">
+            <p style="margin-bottom: 10px;">Quy trình khép kín của 1 học kỳ (Semester Lifecycle) chạy trên demo:</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+              <div style="background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+                <strong style="color:var(--secondary)">1. Chuẩn bị</strong><br>Tạo học kỳ mới & Mở các lớp học phần.
+              </div>
+              <div style="background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+                <strong style="color:var(--secondary)">2. Đăng ký & Học</strong><br>Sinh viên đăng ký (Kafka) -> Đóng học phí -> Điểm danh lớp.
+              </div>
+              <div style="background: var(--bg-main); padding: 10px; border-radius: 6px; border: 1px solid var(--border);">
+                <strong style="color:var(--secondary)">3. Thi & Kết quả</strong><br>Xếp lịch thi -> Thi xong nhập điểm -> Khóa điểm -> Tính GPA/CPA.
+              </div>
+            </div>
+            <div style="margin-top: 15px; padding: 12px; background-color: rgba(16, 185, 129, 0.05); border: 1px solid var(--success); border-radius: 6px;">
+              <strong>Thông tin Test thanh toán VNPay:</strong> Chọn ngân hàng <strong>NCB</strong>. Điền Số thẻ: <code>9704198526191432198</code>, Tên chủ thẻ: <code>NGUYEN VAN A</code>, Ngày phát hành: <code>07/15</code>, Mã OTP: <code>123456</code>.
+            </div>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">Semester Flow, VNPay Test Card, GPA/CPA calculation</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Hệ thống của chúng em số hóa toàn diện quy trình khép kín của một học kỳ. Bắt đầu từ việc Admin tạo kỳ học mới, cho phép sinh viên đăng ký môn học trực tuyến và thanh toán học phí qua VNPay."</p>
+          <p>"Cuối kỳ học, admin lập lịch thi, giảng viên nhập điểm và khóa điểm. Hệ thống tự động tính GPA và tích lũy CPA cho sinh viên rồi đóng học kỳ để phục vụ lưu trữ."</p>
+        `
+      },
+      {
+        number: "10 / 10",
+        topic: "Kết luận",
+        title: "KẾT LUẬN & <span>HƯỚNG PHÁT TRIỂN</span> TƯƠNG LAI",
+        content: `
+          <div style="font-size: 14px;">
+            <h4 style="margin-bottom: 8px;">Kết quả đạt được:</h4>
+            <ul style="padding-left:15px; margin-bottom: 15px; color:var(--text-muted);">
+              <li>Xây dựng thành công hệ thống Portal tích hợp mượt mà, bảo mật cao.</li>
+              <li>Giải quyết triệt để bài toán sập CSDL nhờ kiến trúc hàng đợi Kafka.</li>
+              <li>Tích hợp thành công trợ lý AI RAG thực tiễn và thanh toán VNPay tự động.</li>
+            </ul>
+            <h4 style="margin-bottom: 8px;">Hướng phát triển:</h4>
+            <ul style="padding-left:15px; color:var(--text-muted);">
+              <li>Phát triển Mobile App Native (iOS & Android) để hỗ trợ Push Notifications tốt hơn.</li>
+              <li>Tích hợp lưu trữ Cloud Amazon S3 để quản lý file tài liệu/ảnh chat dung lượng lớn.</li>
+              <li>Nâng cấp tính năng chat realtime với WebRTC để hỗ trợ gọi Voice/Video call trực tuyến giữa Giảng viên và Sinh viên.</li>
+            </ul>
+          </div>
+        `,
+        notes: `
+          <div class="keyword-badge">WebRTC, Amazon S3, Push Notifications</div>
+          <p><strong>Lời thoại gợi ý:</strong></p>
+          <p>"Sau quá trình nghiên cứu và phát triển, chúng em đã hoàn thiện cơ bản hệ thống UMS TLU Portal đạt mục tiêu chịu tải tốt, giao diện hiện đại và tính năng hữu ích."</p>
+          <p>"Trong tương lai, đồ án sẽ hướng tới tích hợp WebRTC để giảng viên và sinh viên có thể gọi điện trao đổi trực tiếp, đồng thời chuyển đổi lưu trữ tài liệu lên đám mây Amazon S3 để tối ưu dung lượng đĩa cứng."</p>
+          <p>"Em xin chân thành cảm ơn quý thầy cô trong hội đồng đã lắng nghe bài thuyết trình. Sau đây, em xin phép được lắng nghe các câu hỏi và đóng góp ý kiến từ quý thầy cô."</p>
+        `
+      }
+    ];
+
+    let currentSlideIndex = 0;
+
+    // Load active slide
+    function renderSlide() {
+      const slide = slides[currentSlideIndex];
+      const slideBox = document.getElementById("slide-box");
+      const notesBox = document.getElementById("notes-box");
+      
+      slideBox.innerHTML = `
+        <div class="slide-header">
+          <span class="slide-number">Slide ${slide.number}</span>
+          <span class="slide-topic">${slide.topic}</span>
+        </div>
+        <div class="slide-title">${slide.title}</div>
+        <div class="slide-content">${slide.content}</div>
+        <div class="slide-footer">
+          <span>Đồ án tốt nghiệp UMS TLU Portal</span>
+          <span>Trường Đại học Thăng Long — 2026</span>
+        </div>
+      `;
+
+      notesBox.innerHTML = slide.notes;
+
+      // Update progress bar
+      const percent = ((currentSlideIndex + 1) / slides.length) * 100;
+      document.getElementById("progress-fill").style.width = percent + "%";
+
+      // Enable/disable buttons
+      document.getElementById("prev-btn").disabled = currentSlideIndex === 0;
+      document.getElementById("next-btn").innerText = currentSlideIndex === slides.length - 1 ? "Hoàn Thành" : "Tiếp Theo →";
+    }
+
+    function nextSlide() {
+      if (currentSlideIndex < slides.length - 1) {
+        currentSlideIndex++;
+        renderSlide();
+      } else {
+        alert("Chúc mừng bạn đã hoàn thành bài thuyết trình bảo vệ đồ án! Hãy chuyển qua tab 'Cẩm Nang Phản Biện' hoặc 'Giải Thích Thuật Ngữ' để xem các câu hỏi ôn tập của hội đồng nhé.");
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        renderSlide();
+      }
+    }
+
+    // Switch between views
+    function switchView(viewName) {
+      document.getElementById("view-presentation").style.display = "none";
+      document.getElementById("view-documentation").style.display = "none";
+      document.getElementById("view-qa").style.display = "none";
+      document.getElementById("view-glossary").style.display = "none";
+
+      document.querySelectorAll(".mode-btn").forEach(btn => btn.classList.remove("active"));
+
+      if (viewName === 'presentation') {
+        document.getElementById("view-presentation").style.display = "flex";
+        event.currentTarget.classList.add("active");
+        renderSlide();
+      } else if (viewName === 'documentation') {
+        document.getElementById("view-documentation").style.display = "flex";
+        event.currentTarget.classList.add("active");
+      } else if (viewName === 'qa') {
+        document.getElementById("view-qa").style.display = "block";
+        event.currentTarget.classList.add("active");
+      } else if (viewName === 'glossary') {
+        document.getElementById("view-glossary").style.display = "block";
+        event.currentTarget.classList.add("active");
+      }
+    }
+
+    // Initialize Presentation View
+    renderSlide();
+
+    // Keydown navigation for slides
+    document.addEventListener("keydown", function(event) {
+      if (document.getElementById("view-presentation").style.display !== "none") {
+        if (event.key === "ArrowRight" || event.key === "Space") {
+          nextSlide();
+        } else if (event.key === "ArrowLeft") {
+          prevSlide();
+        }
+      }
+    });
+
+    // Theme toggle
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", newTheme);
+    }
+
+    // Accordion Toggle for FAQ
+    document.querySelectorAll(".faq-question").forEach(q => {
+      q.addEventListener("click", () => {
+        const item = q.parentElement;
+        item.classList.toggle("open");
+      });
+    });
+
+    // Search function for FAQs
+    function searchQA() {
+      const input = document.getElementById("qa-search-input").value.toLowerCase();
+      const items = document.querySelectorAll(".faq-item");
+
+      items.forEach(item => {
+        const question = item.querySelector(".faq-question").innerText.toLowerCase();
+        const answer = item.querySelector(".faq-answer").innerText.toLowerCase();
+
+        if (question.includes(input) || answer.includes(input)) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    }
+
+    // Smooth scroll navigation highlight for Documentation Mode
+    window.addEventListener("scroll", () => {
+      if (document.getElementById("view-documentation").style.display === "flex") {
+        const sections = document.querySelectorAll(".doc-section");
+        const navLinks = document.querySelectorAll(".doc-nav-link");
+        let currentSectionId = "";
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 120) {
+            currentSectionId = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+          if (link.getAttribute("href").substring(1) === currentSectionId) {
+            link.classList.add("active");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

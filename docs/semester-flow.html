@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flow vòng đời một học kỳ đại học</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d8deea;
+      --admin: #0f766e;
+      --student: #2563eb;
+      --teacher: #7c3aed;
+      --exam: #b45309;
+      --score: #be123c;
+      --soft-admin: #e6f5f2;
+      --soft-student: #eaf1ff;
+      --soft-teacher: #f2ebff;
+      --soft-exam: #fff3df;
+      --soft-score: #ffe9ee;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    main {
+      width: min(1240px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 34px 0 52px;
+    }
+
+    header {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 920px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--card);
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .dot.admin { background: var(--admin); }
+    .dot.student { background: var(--student); }
+    .dot.teacher { background: var(--teacher); }
+    .dot.exam { background: var(--exam); }
+    .dot.score { background: var(--score); }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 16px;
+    }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .marker {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      padding-top: 4px;
+    }
+
+    .marker::after {
+      content: "";
+      width: 2px;
+      height: calc(100% + 16px);
+      background: var(--line);
+      position: absolute;
+      top: 42px;
+      left: 50%;
+    }
+
+    .phase:last-child .marker::after { display: none; }
+
+    .num {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(23, 32, 51, 0.16);
+    }
+
+    .phase-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: 0 10px 30px rgba(23, 32, 51, 0.06);
+      overflow: hidden;
+    }
+
+    .phase-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .phase-head h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .phase-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .phase-body {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .task {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 132px;
+    }
+
+    .task h3 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .task ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.62;
+    }
+
+    .task.admin { background: var(--soft-admin); border-color: #b9e3dc; }
+    .task.student { background: var(--soft-student); border-color: #c8d8ff; }
+    .task.teacher { background: var(--soft-teacher); border-color: #ded0fb; }
+    .task.exam { background: var(--soft-exam); border-color: #f2d3a5; }
+    .task.score { background: var(--soft-score); border-color: #ffc6d1; }
+
+    .badge {
+      flex: none;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      background: #fbfcff;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      padding: 16px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .panel ol,
+    .panel ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .note {
+      margin-top: 24px;
+      border-left: 4px solid var(--admin);
+      border-radius: 8px;
+      background: var(--card);
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 960px) {
+      .phase {
+        grid-template-columns: 52px 1fr;
+      }
+
+      .phase-body,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .phase-head {
+        display: grid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Flow vòng đời một học kỳ đại học</h1>
+      <p class="lead">
+        Đây là flow đầy đủ từ lúc mở học kỳ mới, đăng ký học phần, đăng ký thi lại,
+        học trong kỳ, tổ chức thi cuối kỳ, cập nhật điểm, khóa điểm và tính kết quả.
+        “Học kỳ” là khung lớn; “đợt đăng ký” là các cửa đăng ký nhỏ nằm trong học kỳ.
+      </p>
+      <div class="legend">
+        <span class="pill"><span class="dot admin"></span>Admin / Phòng đào tạo</span>
+        <span class="pill"><span class="dot student"></span>Sinh viên</span>
+        <span class="pill"><span class="dot teacher"></span>Giảng viên</span>
+        <span class="pill"><span class="dot exam"></span>Thi cử</span>
+        <span class="pill"><span class="dot score"></span>Điểm / kết quả</span>
+      </div>
+    </header>
+
+    <section class="timeline" aria-label="Flow học kỳ đầy đủ">
+      <article class="phase">
+        <div class="marker"><div class="num">1</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Tạo học kỳ mới</h2>
+              <p>Nhà trường mở khung học kỳ: tên kỳ, thời gian, trạng thái ban đầu và các đợt đăng ký.</p>
+            </div>
+            <span class="badge">Chuẩn bị dữ liệu</span>
+          </div>
+          <div class="phase-body">
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Admin</h3>
+              <ul>
+                <li>Tạo học kỳ mới.</li>
+                <li>Thiết lập ngày bắt đầu và kết thúc.</li>
+                <li>Tạo hoặc dùng “Đợt 1”.</li>
+              </ul>
+            </div>
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Mở lớp học phần</h3>
+              <ul>
+                <li>Chọn học phần, phòng, lịch học.</li>
+                <li>Gán giảng viên đúng khoa/ngành.</li>
+                <li>Thiết lập sĩ số tối đa.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Dữ liệu kế thừa</h3>
+              <ul>
+                <li>Kết quả kỳ trước dùng để xét môn tiên quyết.</li>
+                <li>Điểm kỳ trước dùng để xét thi lại/nâng điểm.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">2</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Mở đăng ký học phần</h2>
+              <p>Sinh viên đăng ký lớp học phần của đợt đang mở. Nếu thiếu lớp, nhà trường có thể chốt đợt cũ và mở đợt mới.</p>
+            </div>
+            <span class="badge">PENDING → REGISTERED</span>
+          </div>
+          <div class="phase-body">
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Admin</h3>
+              <ul>
+                <li>Mở đăng ký cho Đợt 1.</li>
+                <li>Theo dõi sĩ số và lớp đầy.</li>
+                <li>Tạo Đợt 2 nếu cần mở lớp bổ sung.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem lớp thuộc đợt đang mở.</li>
+                <li>Chọn hoặc hủy lớp khi đợt chưa chốt.</li>
+                <li>Không thấy lớp của đợt đã chốt.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Hệ thống kiểm tra</h3>
+              <ul>
+                <li>Trùng lịch học.</li>
+                <li>Trùng môn trong cùng kỳ.</li>
+                <li>Giới hạn tín chỉ, tiên quyết, đúng ngành.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">3</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Chốt đăng ký học phần</h2>
+              <p>Khi hết hạn đăng ký, admin chốt từng đợt. Đợt đã chốt không mở lại; nếu cần thêm lớp thì tạo đợt mới.</p>
+            </div>
+            <span class="badge">Khóa đợt</span>
+          </div>
+          <div class="phase-body">
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Admin</h3>
+              <ul>
+                <li>Bấm chốt đăng ký cho đợt đang mở.</li>
+                <li>Kiểm tra số lượng PENDING trước khi chốt.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Hệ thống</h3>
+              <ul>
+                <li>Chuyển PENDING thành REGISTERED.</li>
+                <li>Cập nhật sĩ số lớp.</li>
+                <li>Tạo bản ghi Grade ban đầu.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem thời khóa biểu chính thức.</li>
+                <li>Không hủy/chọn thêm lớp đợt đã chốt.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">4</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Mở đăng ký thi lại / nâng điểm</h2>
+              <p>Sau khi chốt học phần, nhà trường mở cửa đăng ký thi lại cho các môn từ kỳ trước đủ điều kiện.</p>
+            </div>
+            <span class="badge">Kết quả kỳ trước</span>
+          </div>
+          <div class="phase-body">
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Admin</h3>
+              <ul>
+                <li>Mở đăng ký thi lại/nâng điểm.</li>
+                <li>Cấu hình phí thi lại nếu cần.</li>
+                <li>Chốt danh sách thi lại khi hết hạn.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem môn đủ điều kiện thi lại/nâng điểm.</li>
+                <li>Chọn môn muốn thi.</li>
+                <li>Theo dõi trạng thái PENDING/REGISTERED.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Điều kiện</h3>
+              <ul>
+                <li>Không bị cấm thi vì nghỉ quá buổi.</li>
+                <li>Không thuộc trường hợp phải học lại.</li>
+                <li>Đủ rule thi lại hoặc nâng điểm.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">5</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Học trong kỳ và điểm quá trình</h2>
+              <p>Sinh viên học đủ tuần, giảng viên điểm danh và nhập các thành phần điểm trước khi xét thi cuối kỳ.</p>
+            </div>
+            <span class="badge">Trong suốt học kỳ</span>
+          </div>
+          <div class="phase-body">
+            <div class="task teacher">
+              <h3><span class="dot teacher"></span>Giảng viên</h3>
+              <ul>
+                <li>Điểm danh từng buổi.</li>
+                <li>Nhập điểm chuyên cần/quá trình.</li>
+                <li>Nhập điểm giữa kỳ.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Đi học theo thời khóa biểu.</li>
+                <li>Theo dõi điểm danh và điểm quá trình.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Xét đủ điều kiện</h3>
+              <ul>
+                <li>Đủ số buổi học theo quy định.</li>
+                <li>Không bị cấm thi.</li>
+                <li>Có điểm quá trình cần thiết.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">6</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Lập lịch thi và chia phòng</h2>
+              <p>Lịch thi được lập theo môn, không theo lớp học phần. Sinh viên thường, thi lại và nâng điểm được chia phòng theo sức chứa.</p>
+            </div>
+            <span class="badge">Theo môn</span>
+          </div>
+          <div class="phase-body">
+            <div class="task exam">
+              <h3><span class="dot exam"></span>Admin thi cử</h3>
+              <ul>
+                <li>Chọn môn thi, loại thi, ngày giờ.</li>
+                <li>Chọn một hoặc nhiều phòng thi.</li>
+                <li>Lưu lịch thi để hệ thống chia phòng.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Hệ thống chia phòng</h3>
+              <ul>
+                <li>Gom sinh viên REGISTERED theo môn.</li>
+                <li>Gom sinh viên thi lại/nâng điểm đã chốt.</li>
+                <li>Báo lỗi nếu tổng sức chứa không đủ.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem lịch thi sau khi công bố.</li>
+                <li>Biết chính xác giờ thi và phòng thi.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">7</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Tổ chức thi cuối kỳ / thi lại</h2>
+              <p>Sinh viên đi thi theo lịch đã công bố. Phòng thi có danh sách sinh viên được chia sẵn.</p>
+            </div>
+            <span class="badge">Ngày thi</span>
+          </div>
+          <div class="phase-body">
+            <div class="task exam">
+              <h3><span class="dot exam"></span>Phòng thi</h3>
+              <ul>
+                <li>In danh sách theo phòng.</li>
+                <li>Kiểm tra sinh viên dự thi.</li>
+                <li>Ghi nhận vắng thi nếu cần.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Thi đúng môn, đúng giờ, đúng phòng.</li>
+                <li>Thi lại/nâng điểm theo lịch riêng nếu có.</li>
+              </ul>
+            </div>
+            <div class="task teacher">
+              <h3><span class="dot teacher"></span>Giảng viên</h3>
+              <ul>
+                <li>Coi thi hoặc nhận bài/chấm bài theo phân công.</li>
+                <li>Chuẩn bị nhập điểm cuối kỳ.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">8</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Nhập điểm và tính kết quả</h2>
+              <p>Sau khi thi, giảng viên nhập điểm cuối kỳ hoặc điểm thi lại. Hệ thống tính điểm tổng, GPA học kỳ và CPA.</p>
+            </div>
+            <span class="badge">Sau thi</span>
+          </div>
+          <div class="phase-body">
+            <div class="task teacher">
+              <h3><span class="dot teacher"></span>Giảng viên</h3>
+              <ul>
+                <li>Nhập điểm cuối kỳ.</li>
+                <li>Nhập điểm thi lại/nâng điểm nếu có.</li>
+                <li>Kiểm tra bảng điểm lớp.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Hệ thống</h3>
+              <ul>
+                <li>Tính điểm tổng theo trọng số.</li>
+                <li>Xác định đạt, thi lại, học lại, cấm thi.</li>
+                <li>Cập nhật GPA/CPA sau khi khóa điểm.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem điểm môn học.</li>
+                <li>Xem GPA học kỳ và CPA tích lũy.</li>
+                <li>Biết môn nào cần thi lại/học lại ở kỳ sau.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="phase">
+        <div class="marker"><div class="num">9</div></div>
+        <div class="phase-card">
+          <div class="phase-head">
+            <div>
+              <h2>Khóa điểm và kết thúc học kỳ</h2>
+              <p>Admin khóa điểm toàn kỳ, xuất báo cáo, chốt kết quả để chuẩn bị cho học kỳ tiếp theo.</p>
+            </div>
+            <span class="badge">Đóng kỳ</span>
+          </div>
+          <div class="phase-body">
+            <div class="task admin">
+              <h3><span class="dot admin"></span>Admin</h3>
+              <ul>
+                <li>Khóa điểm học kỳ.</li>
+                <li>Xuất danh sách đăng ký, lịch thi, kết quả.</li>
+                <li>Chuẩn bị dữ liệu kỳ mới.</li>
+              </ul>
+            </div>
+            <div class="task score">
+              <h3><span class="dot score"></span>Kết quả</h3>
+              <ul>
+                <li>GPA học kỳ được lưu.</li>
+                <li>CPA tích lũy được cập nhật.</li>
+                <li>Kết quả làm đầu vào cho kỳ sau.</li>
+              </ul>
+            </div>
+            <div class="task student">
+              <h3><span class="dot student"></span>Sinh viên</h3>
+              <ul>
+                <li>Xem kết quả chính thức.</li>
+                <li>Chuẩn bị đăng ký học phần/thi lại kỳ tiếp theo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="split">
+      <article class="panel">
+        <h2>Flow đăng ký học phần nhiều đợt</h2>
+        <ol>
+          <li>Tạo học kỳ.</li>
+          <li>Mở Đợt 1.</li>
+          <li>Tạo lớp học phần cho Đợt 1.</li>
+          <li>Sinh viên đăng ký lớp Đợt 1.</li>
+          <li>Chốt Đợt 1.</li>
+          <li>Nếu thiếu lớp, tạo Đợt 2.</li>
+          <li>Mở Đợt 2 và tạo lớp mới.</li>
+          <li>Sinh viên chỉ thấy lớp Đợt 2.</li>
+          <li>Chốt Đợt 2, lặp lại nếu cần.</li>
+        </ol>
+      </article>
+
+      <article class="panel">
+        <h2>Flow thi lại và thi cuối kỳ</h2>
+        <ol>
+          <li>Sau khi chốt học phần, admin mở đăng ký thi lại/nâng điểm.</li>
+          <li>Sinh viên chọn môn đủ điều kiện từ kết quả kỳ trước.</li>
+          <li>Admin chốt danh sách thi lại.</li>
+          <li>Đến cuối kỳ, admin tạo lịch thi theo môn.</li>
+          <li>Hệ thống gom sinh viên thi thường và thi lại/nâng điểm.</li>
+          <li>Hệ thống chia phòng theo sức chứa.</li>
+          <li>Sinh viên xem lịch thi và đi thi.</li>
+          <li>Giảng viên nhập điểm, admin khóa điểm.</li>
+        </ol>
+      </article>
+    </section>
+
+    <aside class="note">
+      Cách hiểu ngắn gọn: học kỳ bắt đầu bằng đăng ký học phần, trong kỳ có học và điểm quá trình,
+      song song nhà trường có thể mở đăng ký thi lại cho kết quả kỳ trước. Cuối kỳ thì lập lịch thi theo môn,
+      chia phòng, tổ chức thi, nhập điểm, khóa điểm và lấy kết quả đó làm đầu vào cho học kỳ kế tiếp.
+    </aside>
+  </main>
+</body>
+</html>

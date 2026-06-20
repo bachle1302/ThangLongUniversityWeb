@@ -1,0 +1,10 @@
+.git
+.gradle
+build/
+.env
+.env*
+node_modules
+uploads/
+docs/
+*.md
+sql/

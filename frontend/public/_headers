@@ -1,0 +1,13 @@
+# Vite hashed assets - immutable
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static images - 30 days + stale-while-revalidate
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML/SSR pages - security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

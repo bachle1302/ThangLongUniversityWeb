@@ -1,0 +1,40 @@
+# Root .gitignore — University Management System
+
+# ──────────────────────────────────────────
+# Environment & Secrets
+# ──────────────────────────────────────────
+.env
+.env.local
+*.local
+
+# ──────────────────────────────────────────
+# Backend (backend/)
+# ──────────────────────────────────────────
+backend/.gradle/
+backend/build/
+backend/uploads/
+backend/boot_run.log
+backend/output.log
+*.log
+
+# ──────────────────────────────────────────
+# Frontend (frontend/)
+# ──────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.output/
+frontend/.vinxi/
+frontend/.nitro/
+frontend/.tanstack/
+frontend/.wrangler/
+
+# ──────────────────────────────────────────
+# IDE & OS
+# ──────────────────────────────────────────
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+.DS_Store
+Thumbs.db

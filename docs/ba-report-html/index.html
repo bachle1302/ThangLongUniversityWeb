@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Đặc Tả Phân Tích Nghiệp Vụ (BA) Hệ Thống Quản Lý Đào Tạo — ThangLong University Web</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <style>
+:root {
+  --bg: #0f1117;
+  --bg2: #161b27;
+  --bg3: #1e2535;
+  --card: #1a2030;
+  --border: #2a3348;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #c8102e;
+  --accent2: #3b82f6;
+  --green: #22c55e;
+  --yellow: #f59e0b;
+  --purple: #a855f7;
+  --sidebar-w: 280px;
+  --header-h: 60px;
+}
+[data-theme="light"] {
+  --bg: #f8fafc; --bg2: #f1f5f9; --bg3: #e2e8f0;
+  --card: #ffffff; --border: #cbd5e1;
+  --text: #1e293b; --muted: #64748b;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+/* Sidebar */
+#sidebar {
+  width: var(--sidebar-w); position: fixed; left: 0; top: 0; bottom: 0;
+  background: var(--bg2); border-right: 1px solid var(--border);
+  overflow-y: auto; z-index: 100; transition: transform .3s;
+  display: flex; flex-direction: column;
+}
+.sidebar-logo {
+  padding: 20px 16px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-logo .dot { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display:grid; place-items:center; font-weight:900; color:#fff; font-size:14px; flex-shrink:0; }
+.sidebar-logo span { font-weight: 700; font-size: 13px; line-height: 1.3; color: var(--text); }
+.sidebar-search { padding: 12px 12px 8px; }
+.sidebar-search input { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; }
+.sidebar-search input::placeholder { color: var(--muted); }
+.sidebar-search input:focus { border-color: var(--accent); }
+nav ul { list-style: none; padding: 8px 0; flex: 1; }
+nav ul li a {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 16px; font-size: 12.5px; color: var(--muted);
+  text-decoration: none; border-radius: 0; transition: all .15s;
+  border-left: 3px solid transparent;
+}
+nav ul li a:hover { color: var(--text); background: var(--bg3); }
+nav ul li a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(200,16,46,.08); }
+nav ul li a .icon { font-size: 13px; width: 18px; text-align: center; }
+.nav-section { padding: 12px 16px 4px; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: var(--muted); text-transform: uppercase; }
+
+/* Header */
+#header {
+  position: fixed; top: 0; left: var(--sidebar-w); right: 0; height: var(--header-h);
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; z-index: 90;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.menu-btn { display: none; background: none; border: none; color: var(--text); font-size: 20px; cursor: pointer; }
+.breadcrumb { font-size: 13px; color: var(--muted); }
+.breadcrumb span { color: var(--text); font-weight: 600; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.btn-icon { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; color: var(--text); cursor: pointer; font-size: 14px; transition: all .15s; }
+.btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Main */
+#main {
+  margin-left: var(--sidebar-w); margin-top: var(--header-h);
+  padding: 32px 40px; flex: 1; max-width: 100%;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #0d1526 0%, #1a0a0e 50%, #0d1a1a 100%);
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px; margin-bottom: 32px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -80px; right: -80px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(200,16,46,.15), transparent 70%);
+}
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(200,16,46,.15); border: 1px solid rgba(200,16,46,.3); color: #f87171; border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 16px; }
+.hero h1 { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+.hero h1 span { color: var(--accent); }
+.hero p { color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 750px; margin-bottom: 20px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--muted); }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px; text-align: center; position: relative; overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+.stat-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-accent, var(--accent)); }
+.stat-card .stat-icon { font-size: 22px; margin-bottom: 6px; }
+.stat-card .stat-num { font-size: 28px; font-weight: 800; color: var(--card-accent, var(--accent)); }
+.stat-card .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+/* Sections */
+.section { margin-bottom: 48px; scroll-margin-top: 80px; }
+.section-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--accent); padding-left: 12px; color: var(--text); }
+.section-title .icon { font-size: 18px; display: none; }
+.section-desc { color: var(--muted); font-size: 13.5px; margin-bottom: 24px; padding-left: 16px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.card h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--text); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.card h4 { font-size: 13.5px; font-weight: 700; margin-top: 16px; margin-bottom: 8px; color: var(--accent2); }
+.card p, .card li { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+.card ul, .card ol { padding-left: 20px; }
+.card ul li, .card ol li { margin-bottom: 6px; }
+
+/* 2-col grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 20px; background: var(--card); }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: auto; }
+thead { background: var(--bg3); }
+th { padding: 12px 14px; text-align: left; font-weight: 600; color: var(--text); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; line-height: 1.5; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg3); color: var(--text); }
+code { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: 11.5px; color: #7dd3fc; font-family: monospace; }
+
+/* Method badges */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: .5px; white-space: nowrap; }
+.badge-get { background: rgba(34,197,94,.15); color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+.badge-post { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
+.badge-put { background: rgba(245,158,11,.15); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.badge-delete { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+.badge-ws { background: rgba(168,85,247,.15); color: #c084fc; border: 1px solid rgba(168,85,247,.3); }
+.badge-high { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.3); }
+.badge-med { background: rgba(245,158,11,.15); color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.badge-low { background: rgba(34,197,94,.15); color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+.badge-admin { background: rgba(200,16,46,.15); color: #f87171; border: 1px solid rgba(200,16,46,.3); }
+.badge-teacher { background: rgba(59,130,246,.15); color: #60a5fa; border: 1px solid rgba(59,130,246,.3); }
+.badge-student { background: rgba(34,197,94,.15); color: #4ade80; border: 1px solid rgba(34,197,94,.3); }
+.badge-all { background: rgba(168,85,247,.15); color: #c084fc; border: 1px solid rgba(168,85,247,.3); }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--green)); }
+.timeline-item { position: relative; margin-bottom: 28px; }
+.timeline-item::before { content: ''; position: absolute; left: -28px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--dot-color, var(--accent)); border: 2px solid var(--bg); box-shadow: 0 0 0 3px var(--dot-color, var(--accent)); }
+.timeline-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+.timeline-phase { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+.timeline-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.timeline-date { font-size: 11px; color: var(--muted); background: var(--bg3); border: 1px solid var(--border); padding: 2px 8px; border-radius: 20px; }
+.timeline-body { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.timeline-body ul { padding-left: 16px; margin: 0; }
+.timeline-body ul li { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+
+/* Mermaid */
+.mermaid-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; overflow-x: auto; margin-bottom: 20px; }
+.mermaid { min-width: 300px; }
+
+/* Back to top */
+#back-top { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #fff; border: none; border-radius: 50%; width: 44px; height: 44px; font-size: 18px; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(200,16,46,.4); z-index: 200; transition: transform .2s; }
+#back-top.visible { display: flex; }
+#back-top:hover { transform: scale(1.1); }
+
+/* Sidebar overlay */
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 99; }
+
+/* Search results */
+#search-results { position: absolute; top: 100%; left: 0; right: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; max-height: 300px; overflow-y: auto; z-index: 200; margin-top: 4px; }
+#search-results a { display: block; padding: 10px 14px; font-size: 13px; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+#search-results a:hover { background: var(--bg3); color: var(--accent); }
+#search-results a mark { background: rgba(200,16,46,.3); color: var(--accent); border-radius: 2px; }
+
+/* Divider */
+.divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+/* Progress bar */
+#progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); transition: width .1s; z-index: 999; }
+
+/* Custom API filter controls */
+.api-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; background: var(--bg2); padding: 16px; border-radius: 8px; border: 1px solid var(--border); }
+.api-filters select, .api-filters input { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; font-size: 13px; width: 100%; outline: none; }
+.api-filters input:focus, .api-filters select:focus { border-color: var(--accent); }
+
+/* Collapsible API styling */
+.api-detail-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+.api-detail-card summary { padding: 14px 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; list-style: none; user-select: none; background: var(--bg2); }
+.api-detail-card summary::-webkit-details-marker { display: none; }
+.api-detail-card summary::before { content: '▶'; font-size: 10px; color: var(--muted); transition: transform 0.2s; }
+.api-detail-card[open] summary::before { transform: rotate(90deg); }
+.api-detail-card-content { padding: 20px; border-top: 1px solid var(--border); }
+
+/* Accordion list */
+.accordion-list { display: flex; flex-direction: column; gap: 8px; }
+
+@media (max-width: 900px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  #main { margin-left: 0; padding: 20px 16px; }
+  #header { left: 0; }
+  .menu-btn { display: block; }
+  .grid-2, .sw-grid { grid-template-columns: 1fr; }
+  .hero { padding: 32px 20px; }
+  .hero h1 { font-size: 24px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media print {
+  #sidebar, #header, #back-top, #progress { display: none !important; }
+  #main { margin: 0; padding: 0; }
+  body { background: #fff !important; color: #000 !important; }
+  .card, .stat-card, .table-wrap, .api-detail-card, details { break-inside: avoid; background: #fff !important; color: #000 !important; border: 1px solid #000 !important; }
+  .section-title { border-left-color: #000 !important; color: #000 !important; }
+  td, th { color: #000 !important; border-bottom: 1px solid #000 !important; }
+  code { background: #eee !important; color: #000 !important; border: 1px solid #ccc !important; }
+  /* Force all details/accordions to display fully open on print */
+  details, .api-detail-card { display: block !important; }
+  details summary::before, .api-detail-card summary::before { content: '▼ ' !important; }
+  details[open] summary::before, .api-detail-card[open] summary::before { content: '▼ ' !important; }
+  .api-detail-card-content, details > *:not(summary) { display: block !important; padding: 10px 0 !important; }
+}
+  </style>
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        background: '#1a2030',
+        primaryColor: '#c8102e',
+        primaryTextColor: '#e2e8f0',
+        lineColor: '#3b82f6',
+        secondaryColor: '#1e2535',
+        tertiaryColor: '#161b27'
+      }
+    });
+  </script>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div id="progress"></div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="dot">TLU</div>
+      <span>TLU BA Specification<br><small style="color:var(--muted); font-size:10px; font-weight:normal;">Business Analyst Report</small></span>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="search-input" placeholder="Tìm kiếm tài liệu...">
+    </div>
+    <nav>
+      <ul>
+        <li class="nav-section">Khởi động</li>
+        <li><a href="#executive-summary" class="active"><span class="icon">📝</span> 00. Executive Summary</a></li>
+        <li><a href="#problem-statement"><span class="icon">🎯</span> 01. Problem & Business Goals</a></li>
+        <li><a href="#stakeholder-analysis"><span class="icon">👥</span> 02. Stakeholder Analysis</a></li>
+        <li><a href="#scope-of-work"><span class="icon">📐</span> 03. Scope of Work</a></li>
+
+        <li class="nav-section">Quy trình nghiệp vụ</li>
+        <li><a href="#business-process"><span class="icon">🔄</span> 04. As-Is / To-Be Processes</a></li>
+        <li><a href="#user-stories"><span class="icon">🎭</span> 05. Stories & Acceptance Criteria</a></li>
+        <li><a href="#functional-requirements"><span class="icon">⚙️</span> 06. Functional Requirements</a></li>
+        <li><a href="#nfr"><span class="icon">🔒</span> 07. Non-Functional Requirements</a></li>
+
+        <li class="nav-section">Đặc tả chi tiết</li>
+        <li><a href="#business-rules-catalog"><span class="icon">📜</span> 08. Business Rules Catalog</a></li>
+        <li><a href="#api-specification"><span class="icon">🔌</span> 09. API Specification</a></li>
+        <li><a href="#data-requirements"><span class="icon">🗄️</span> 10. Data Requirements & ERD</a></li>
+        <li><a href="#ui-screen-mapping"><span class="icon">🖥️</span> 11. UI/UX Screen Mapping</a></li>
+
+        <li class="nav-section">Kiểm thử & Đánh giá</li>
+        <li><a href="#test-cases"><span class="icon">🧪</span> 12. Test Case Specifications</a></li>
+        <li><a href="#rtm"><span class="icon">🗺️</span> 13. Traceability Matrix (RTM)</a></li>
+        <li><a href="#risks-assumptions"><span class="icon">⚠️</span> 14. Risks & Assumptions</a></li>
+        <li><a href="#completion-status"><span class="icon">💡</span> 15. Completion & Roadmap</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div style="flex: 1; display: flex; flex-direction: column;">
+    <!-- Header -->
+    <header id="header">
+      <div class="header-left">
+        <button class="menu-btn">☰</button>
+        <div class="breadcrumb">
+          BA Report / <span style="font-weight:700;">Executive Summary</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="btn-icon" id="theme-toggle" title="Chuyển giao diện">☀️</button>
+        <button class="btn-icon" id="print-report" title="In báo cáo">🖨️ In PDF</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main">
+      
+      <!-- ================= SECTION 00: EXECUTIVE SUMMARY ================= -->
+      <section id="executive-summary" class="section">
+        <div class="hero">
+          <div class="hero-badge">📋 BẢN ĐẶC TẢ NGHIỆP VỤ BA ĐẦY ĐỦ (FULL BA SPECIFICATION REPORT)</div>
+          <h1>Báo Cáo Nghiệp Vụ <span>TLU Portal</span></h1>
+          <p>Tài liệu đặc tả toàn diện nhu cầu nghiệp vụ, bài toán nghẽn luồng xử lý đăng ký học phần, thiết kế As-Is/To-Be cải tiến, danh mục User Story, luật nghiệp vụ và ma trận truy vết yêu cầu (Requirement Traceability Matrix) của hệ thống Quản lý đào tạo Đại học Thăng Long.</p>
+          <div class="hero-tags">
+            <span class="tag">Business Analyst Framework</span>
+            <span class="tag">As-Is/To-Be Analysis</span>
+            <span class="tag">User Stories & AC</span>
+            <span class="tag">Traceability Matrix</span>
+            <span class="tag">Kafka Queue Architecture</span>
+          </div>
+        </div>
+
+        <h2 class="section-title">00. Executive Summary (Tóm Lược Nghiệp Vụ)</h2>
+        <div class="card">
+          <p>Trường Đại học Thăng Long đang vận hành mô hình đào tạo tín chỉ linh hoạt, tạo điều kiện tối đa cho sinh viên chủ động chọn thời gian và lộ trình học tập. Tuy nhiên, đặc thù này phát sinh thách thức cực kỳ lớn về mặt hạ tầng công nghệ: <strong>tải đỉnh đột biến (peak traffic load)</strong> tại thời điểm mở cổng đăng ký học phần. Có hàng ngàn sinh viên truy cập đồng thời để tranh giành các slot lớp học phần mong muốn, gây sập cơ sở dữ liệu truyền thống, dẫn đến thất thoát giao dịch đăng ký và trải nghiệm tồi tệ.</p>
+          <p style="margin-top: 12px;">Hệ thống <strong>ThangLong University Web Portal (TLU Portal)</strong> được xây dựng nhằm hiện đại hóa quy trình đào tạo tín chỉ, giải quyết triệt để bài toán chịu tải qua cơ chế <strong>xếp hàng bất đồng bộ Apache Kafka</strong>, tự động hóa quy trình thanh toán học phí qua cổng VNPay NCB Sandbox, tích hợp Trợ lý AI hỏi đáp quy chế tự động (RAG Chatbot), và thiết lập hệ thống chat realtime cho sinh viên - giảng viên. Bản đặc tả này đóng vai trò là "Ground Truth" định hình tất cả luồng nghiệp vụ, luật ràng buộc kiểm soát tính toàn vẹn dữ liệu điểm số, thanh toán và đăng ký của trường.</p>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 01: PROBLEM & BUSINESS GOALS ================= -->
+      <section id="problem-statement" class="section">
+        <h2 class="section-title">01. Problem Statement & Business Goals</h2>
+        <p class="section-desc">Phân tích bài toán nghiệp vụ hiện tại, đối tượng chịu ảnh hưởng và mục tiêu chiến lược của hệ thống mới.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:100px;">Mã</th>
+                <th style="width:200px;">Vấn đề nghiệp vụ hiện tại</th>
+                <th style="width:160px;">Đối tượng bị ảnh hưởng</th>
+                <th>Tác động/Ảnh hưởng tiêu cực</th>
+                <th style="width:220px;">Giải pháp từ hệ thống mới</th>
+                <th style="width:150px;">Chỉ số đánh giá (Success Metric)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>PB-001</strong></td>
+                <td>Nghẽn mạng và sập CSDL khi đăng ký học phần đồng thời.</td>
+                <td>Sinh viên, Phòng đào tạo</td>
+                <td>Sinh viên không thể truy cập trang web, bị văng phiên đăng nhập, mất slot học phần oan uổng. Phòng đào tạo nhận hàng ngàn email khiếu nại.</td>
+                <td>Sử dụng cơ chế hàng đợi bất đồng bộ Kafka để tiếp nhận và xếp hàng tuần tự yêu cầu. Trả phản hồi 202 Accepted tức thì.</td>
+                <td>98% yêu cầu đăng ký được tiếp nhận dưới 2s; không sập database khi có 5,000 req/s.</td>
+              </tr>
+              <tr>
+                <td><strong>PB-002</strong></td>
+                <td>Chậm trễ trong đối soát học phí và thanh toán thủ công.</td>
+                <td>Sinh viên, Phòng tài vụ</td>
+                <td>Sinh viên phải ra ngân hàng nộp tiền hoặc chuyển khoản thủ công rồi chờ nhân viên kế toán đối soát thủ công bằng tay (mất 2-3 ngày).</td>
+                <td>Tích hợp cổng thanh toán trực tuyến VNPay Sandbox. Đối soát tự động thời gian thực qua Webhook/IPN.</td>
+                <td>Hóa đơn cập nhật trạng thái "Đã thanh toán" &lt; 5s sau khi giao dịch thành công tại VNPay.</td>
+              </tr>
+              <tr>
+                <td><strong>PB-003</strong></td>
+                <td>Nhập điểm thủ công dễ sai sót và nguy cơ sửa điểm trái phép.</td>
+                <td>Giảng viên, Phòng đào tạo</td>
+                <td>Điểm số nhập trên giấy hoặc file excel dễ bị thất lạc, chỉnh sửa bất hợp pháp sau khi công bố kết quả. Thiếu lịch sử tra vết thao tác điểm.</td>
+                <td>Giảng viên nhập điểm trực tiếp trên portal. Hệ thống tự động tính điểm tổng kết và quy đổi điểm chữ, kèm chức năng "Khóa điểm".</td>
+                <td>100% bản ghi sửa đổi điểm sau khóa được kiểm soát và ghi nhận nhật ký hệ thống (Audit logs).</td>
+              </tr>
+              <tr>
+                <td><strong>PB-004</strong></td>
+                <td>Quá tải tổng đài giải đáp thắc mắc quy chế học vụ.</td>
+                <td>Sinh viên, Đội hỗ trợ học vụ</td>
+                <td>Sinh viên nhắn tin/gọi điện hỏi đi hỏi lại các câu hỏi cơ bản về quy chế đào tạo, tín chỉ tích lũy, quy trình thi lại gây quá tải đội hỗ trợ.</td>
+                <td>Tích hợp trợ lý AI thông minh sử dụng mô hình RAG (Retrieval-Augmented Generation) nạp trực tiếp quy chế trường làm dữ liệu nền.</td>
+                <td>AI trả lời đúng trên 90% câu hỏi quy chế; giảm 60% số lượng ticket hỗ trợ học vụ đơn giản.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 02: STAKEHOLDER ANALYSIS ================= -->
+      <section id="stakeholder-analysis" class="section">
+        <h2 class="section-title">02. Stakeholder Analysis</h2>
+        <p class="section-desc">Phân tích mục tiêu, nỗi đau (Pain points), chức năng hỗ trợ và rủi ro của từng bên liên quan.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Stakeholder</th>
+                <th>Mục tiêu chiến lược</th>
+                <th>Nỗi đau hiện tại (Pain Points)</th>
+                <th>Chức năng hệ thống hỗ trợ</th>
+                <th>Kỳ vọng đầu ra</th>
+                <th>Rủi ro nếu thất bại</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Sinh Viên</strong></td>
+                <td>Đăng ký đúng lộ trình học, hoàn thành học phí nhanh, theo dõi điểm số minh bạch.</td>
+                <td>Tranh cướp slot học phần bị nghẽn; không biết bản thân đã đăng ký thành công hay chưa; xếp hàng đóng tiền học trực tiếp mệt mỏi.</td>
+                <td>Đăng ký học phần bất đồng bộ, thanh toán trực tuyến qua VNPay, tra cứu TKB và điểm số hệ 4, hỏi đáp chatbot AI quy chế.</td>
+                <td>Giao diện mượt mà, phản hồi đăng ký lớp học phần tức thì, thanh toán không lỗi.</td>
+                <td>Chậm tiến độ ra trường do không đăng ký được môn học; hoang mang vì dữ liệu tiền bạc thất thoát.</td>
+              </tr>
+              <tr>
+                <td><strong>Giảng Viên</strong></td>
+                <td>Quản lý lớp học phần hiệu quả, nhập điểm chính xác, theo dõi điểm danh dễ dàng.</td>
+                <td>Tính toán điểm tổng kết thủ công phức tạp; ghi nhận điểm danh trên giấy dễ rách hỏng; bị sinh viên xin xỏ sửa điểm sau khi thi.</td>
+                <td>Điểm danh online từng buổi, nhập điểm thành phần trực tiếp, khóa sổ điểm số để gửi phòng đào tạo, tra cứu lịch dạy học.</td>
+                <td>Tính điểm tổng kết tự động chính xác; bảo mật cột điểm không cho phép can thiệp trái phép sau khi khóa sổ.</td>
+                <td>Nhập sai điểm của sinh viên gây khiếu kiện kéo dài; mất mát dữ liệu điểm danh.</td>
+              </tr>
+              <tr>
+                <td><strong>Admin Phòng Đào Tạo</strong></td>
+                <td>Quản lý chương trình học tập, mở học kỳ mới, kiểm soát cổng đăng ký, xếp lịch thi.</td>
+                <td>Dữ liệu lớp học phần lớn, xếp lịch thi cho hàng trăm lớp dễ trùng phòng/lịch; tốn thời gian đối soát hồ sơ xin học lại, thi lại.</td>
+                <td>Thiết lập Semesters, tạo môn học (Courses), quản lý Class Sections, xếp ca thi/phòng thi, xuất báo cáo đăng ký ra file Excel.</td>
+                <td>Hệ thống tự động phát hiện trùng phòng thi, trùng ca thi của sinh viên; xuất file excel nhanh.</td>
+                <td>Lịch thi bị trùng chéo gây hỗn loạn phòng thi thực tế; cổng đăng ký gặp sự cố trong kỳ mở cổng.</td>
+              </tr>
+              <tr>
+                <td><strong>Ban Giám Hiệu</strong></td>
+                <td>Số hóa toàn diện trường học, nâng cao chất lượng dịch vụ, tối ưu hóa nguồn lực nhân sự.</td>
+                <td>Nhà trường chịu tiếng xấu nếu cổng thông tin đào tạo liên tục sập; khó nắm bắt số liệu đóng học phí tổng quan thời gian thực.</td>
+                <td>Trực quan hóa dashboard thống kê học phí, tỷ lệ sinh viên tích lũy đạt, số lượng đăng ký học tập theo từng học kỳ.</td>
+                <td>Báo cáo quản trị trực quan, chính xác để đưa ra quyết định mở thêm lớp kịp thời.</td>
+                <td>Mất uy tín tuyển sinh của nhà trường; hệ thống CNTT đầu tư lớn nhưng không hoạt động ổn định.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 03: SCOPE OF WORK ================= -->
+      <section id="scope-of-work" class="section">
+        <h2 class="section-title">03. Scope of Work</h2>
+        <p class="section-desc">Định vị rõ ràng phạm vi triển khai của dự án để quản lý kỳ vọng của các stakeholder.</p>
+        
+        <div class="grid-2">
+          <div class="card">
+            <h3>In Scope (Nằm trong phạm vi phát triển)</h3>
+            <ul>
+              <li><strong>Hệ thống Portal Web:</strong> Responsive Web App chạy mượt mà trên desktop, tablet và mobile browsers.</li>
+              <li><strong>Đăng ký học phần nâng cao:</strong> Tích hợp hàng đợi Kafka xử lý tải đỉnh, có kiểm tra luật nghiệp vụ (lớp đầy, môn tiên quyết, trùng TKB).</li>
+              <li><strong>Thanh toán trực tuyến:</strong> Thanh toán học phí tích hợp VNPay Sandbox (môi trường thử nghiệm NCB).</li>
+              <li><strong>Học vụ & Lịch thi:</strong> Khai báo học kỳ, môn học, lớp học phần, điểm danh, nhập điểm và khóa sổ điểm học phần.</li>
+              <li><strong>Chat realtime & AI Chatbot:</strong> Kênh chat realtime WebSocket cho lớp học và Chatbot RAG giải đáp luật học vụ thông minh.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Out of Scope (Nằm ngoài phạm vi phát triển)</h3>
+            <ul>
+              <li><strong>Mobile App Native:</strong> Không phát triển ứng dụng di động cài đặt trên App Store/CH Play trong giai đoạn này (chỉ tối ưu Web Responsive).</li>
+              <li><strong>Thanh toán Thật (VNPay Production):</strong> Chưa đấu nối hợp đồng với ngân hàng thật và chứng thư bảo mật tiền tệ quốc gia (chỉ dừng ở VNPay Sandbox).</li>
+              <li><strong>LMS (Learning Management System):</strong> Không xây dựng các tính năng học tập như nộp bài tập về nhà, chấm bài tự động, học trực tuyến Zoom/Teams (chỉ tập trung vào quản lý đào tạo).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Ràng buộc (Constraints), Giả định (Assumptions) & Sự phụ thuộc (Dependencies)</h3>
+          <p><strong>Giả định:</strong> Sinh viên có kết nối Internet ổn định khi đăng ký học phần trực tuyến. Môi trường VNPay Sandbox hoạt động 24/7 để phục vụ thử nghiệm.</p>
+          <p style="margin-top: 8px;"><strong>Ràng buộc:</strong> Hệ thống phải hoàn thiện trước học kỳ mới. Toàn bộ mã nguồn backend bắt buộc viết trên Java 17 / Spring Boot 3.x, frontend trên React 19 để đảm bảo tính kế thừa công nghệ của đội ngũ ACV.</p>
+          <p style="margin-top: 8px;"><strong>Sự phụ thuộc:</strong> Độ chính xác của AI Chatbot phụ thuộc trực tiếp vào tính đầy đủ của file văn bản quy chế đào tạo tín chỉ do Phòng đào tạo cung cấp để nạp vào hệ thống RAG.</p>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 04: BUSINESS PROCESS ================= -->
+      <section id="business-process" class="section">
+        <h2 class="section-title">04. As-Is / To-Be Business Process</h2>
+        <p class="section-desc">Phân tích quy trình nghiệp vụ cũ (As-Is), các điểm nghẽn và quy trình nghiệp vụ cải tiến đề xuất (To-Be) được chuẩn hóa.</p>
+        
+        <div class="card">
+          <h3>4.1 Quy trình Đăng ký học phần</h3>
+          <div class="table-wrap" style="margin-bottom: 20px;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:50%;">Quy trình cũ (As-Is) & Điểm nghẽn</th>
+                  <th style="width:50%;">Quy trình đề xuất mới (To-Be) & Lợi ích mang lại</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Mô tả:</strong> Sinh viên truy cập web cùng một lúc. Hệ thống gửi truy vấn ghi nhận trực tiếp xuống PostgreSQL database. <br>
+                    <strong>Điểm nghẽn:</strong> 
+                    <ul>
+                      <li>Postgres nhanh chóng cạn kiệt Connection Pool (nghẽn cổ chai).</li>
+                      <li>Trình duyệt sinh viên bị đơ, quay đều (Timeout), không phản hồi.</li>
+                      <li>Mất dữ liệu đăng ký do tranh chấp tài nguyên (race conditions).</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <strong>Mô tả:</strong> Sử dụng Apache Kafka làm hàng đợi tiếp nhận bất đồng bộ. Phản hồi ngay HTTP 202 Accepted. Consumer xử lý tuần tự phía sau. <br>
+                    <strong>Lợi ích:</strong>
+                    <ul>
+                      <li>Tránh sập cơ sở dữ liệu hoàn toàn.</li>
+                      <li>Sinh viên biết vị trí xếp hàng của mình nhờ Polling/WebSocket.</li>
+                      <li>Giải phóng kết nối mạng tức thì, đảm bảo trải nghiệm mượt mà.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mermaid-wrap">
+            <div class="mermaid">
+graph TD
+    A[Sinh viên chọn lớp học phần] --> B{Hệ thống kiểm tra?}
+    B -- Bật cổng đăng ký? --> C[Đẩy request vào Kafka Queue]
+    B -- Cổng đang đóng --> D[Báo lỗi: Ngoài thời gian đăng ký]
+    C --> E[Trả kết quả 202 Accepted & requestId về FE]
+    E --> F[FE Polling hỏi trạng thái xử lý]
+    G[Consumer đọc Kafka] --> H{Kiểm tra ràng buộc?}
+    H -- Đạt môn tiên quyết + Còn slot + Không trùng TKB --> I[Ghi nhận vào DB PostgreSQL & Slot +1]
+    H -- Vi phạm luật --> J[Ghi nhận lỗi vào Redis/DB]
+    I --> K[Cập nhật kết quả: THÀNH CÔNG]
+    J --> L[Cập nhật kết quả: THẤT BẠI + Lý do]
+    F --> M{Kết quả trong Redis/DB?}
+    M -- Đã xử lý --> N[Hiển thị kết quả lên màn hình]
+    M -- Chưa xử lý --> F
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>4.2 Quy trình Nhập điểm và Khóa sổ điểm</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Actor</th>
+                  <th>Dữ liệu đầu vào</th>
+                  <th>Quy trình To-Be thực thi trên hệ thống</th>
+                  <th>Trường hợp ngoại lệ (Exception cases)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Giảng Viên</strong></td>
+                  <td><code>enrollmentId</code>, Điểm chuyên cần (10%), Giữa kỳ (30%), Cuối kỳ (60%).</td>
+                  <td>
+                    1. Giảng viên vào màn hình danh sách lớp dạy.<br>
+                    2. Nhập điểm trực tiếp vào bảng điểm. Hệ thống tự động tính điểm tổng kết và quy đổi điểm chữ (A-F, thang 4).<br>
+                    3. Bấm nút "Khóa điểm". Trạng thái lớp chuyển thành <code>grade_locked = true</code>.<br>
+                    4. Hệ thống ghi nhật ký Audit Log. Chặn mọi quyền sửa đổi từ tài khoản giảng viên.
+                  </td>
+                  <td>
+                    - Giảng viên nhập điểm vượt quá phạm vi 0-10 -> Báo lỗi validate tức thì.<br>
+                    - Cố gắng sửa điểm sau khi đã khóa sổ -> Trả lỗi 403 Forbidden.<br>
+                    - Sinh viên phúc khảo điểm -> Chỉ Admin được cấp quyền mở khóa điểm thủ công.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 05: USER STORIES ================= -->
+      <section id="user-stories" class="section">
+        <h2 class="section-title">05. User Stories & Acceptance Criteria</h2>
+        <p class="section-desc">Đặc tả yêu cầu người dùng dưới dạng User Story chuẩn mực kèm tiêu chí chấp nhận (Acceptance Criteria - AC).</p>
+        
+        <!-- Student User Stories -->
+        <div class="card">
+          <h3>5.1 Nhóm User Stories dành cho Sinh Viên (Student)</h3>
+          
+          <div style="margin-bottom: 20px;">
+            <p><strong>US-STUDENT-001 — Đăng ký lớp học phần trực tuyến</strong></p>
+            <p style="font-style: italic; margin-left: 10px;">As a STUDENT, I want to register for available class sections online, so that I can secure my schedule and credits for the semester.</p>
+            <ul style="margin-left: 25px; margin-top: 6px;">
+              <li><strong>AC-1:</strong> Sinh viên chỉ đăng ký được lớp học phần khi học kỳ đang mở cổng đăng ký (<code>is_registration_open = true</code>).</li>
+              <li><strong>AC-2:</strong> Hệ thống không cho phép đăng ký nếu lớp học phần đã đầy sĩ số tối đa (<code>current_slots >= max_slots</code>).</li>
+              <li><strong>AC-3:</strong> Hệ thống không cho phép đăng ký nếu lịch học của lớp học phần mới bị trùng chéo (overlap) với bất kỳ lớp học phần nào sinh viên đã đăng ký thành công trước đó trong cùng học kỳ.</li>
+              <li><strong>AC-4:</strong> Sinh viên nhận được mã <code>requestId</code> và trạng thái xử lý <code>PENDING</code> trong vòng &lt; 2 giây.</li>
+              <li><strong>AC-5:</strong> Nếu đăng ký thất bại, màn hình hiển thị lý do lỗi chi tiết (ví dụ: Lớp đầy, trùng lịch học).</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <p><strong>US-STUDENT-002 — Thanh toán học phí trực tuyến qua VNPay NCB</strong></p>
+            <p style="font-style: italic; margin-left: 10px;">As a STUDENT, I want to pay my tuition bills online using VNPay, so that I don't have to queue at the financial office.</p>
+            <ul style="margin-left: 25px; margin-top: 6px;">
+              <li><strong>AC-1:</strong> Sinh viên có thể xem chi tiết hóa đơn học phí của từng học kỳ gồm: Tổng số tiền, số tiền đã đóng, số tiền còn nợ.</li>
+              <li><strong>AC-2:</strong> Nhấn thanh toán sẽ redirect sinh viên sang cổng thanh toán an toàn của VNPay kèm chữ ký bảo mật SHA512 chính xác.</li>
+              <li><strong>AC-3:</strong> Trạng thái hóa đơn học phí phải tự động chuyển thành <code>Đã thanh toán</code> ngay lập tức khi nhận được Callback thành công (Response Code 00) từ VNPay.</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <p><strong>US-STUDENT-003 — Tra cứu bảng điểm học tập cá nhân</strong></p>
+            <p style="font-style: italic; margin-left: 10px;">As a STUDENT, I want to view my grade transcript online, so that I can monitor my academic progress.</p>
+            <ul style="margin-left: 25px; margin-top: 6px;">
+              <li><strong>AC-1:</strong> Hiển thị đầy đủ điểm chuyên cần, giữa kỳ, cuối kỳ, điểm tổng kết thang 10, điểm chữ (A-F) và điểm hệ 4 của từng môn học.</li>
+              <li><strong>AC-2:</strong> Cho phép lọc bảng điểm theo học kỳ hoặc hiển thị bảng điểm tích lũy toàn khóa (CPA).</li>
+            </ul>
+          </div>
+
+          <p><strong>US-STUDENT-004 đến US-STUDENT-008 (Tóm lược chức năng):</strong> Sinh viên có quyền tra cứu thời khóa biểu cá nhân, tra cứu lịch thi học kỳ, đăng ký thi lại môn F/cải thiện điểm môn D, gửi câu hỏi hỗ trợ cho Trợ lý AI Chatbot, tham gia phòng chat realtime của lớp học phần.</p>
+        </div>
+
+        <!-- Teacher User Stories -->
+        <div class="card">
+          <h3>5.2 Nhóm User Stories dành cho Giảng Viên (Teacher)</h3>
+          
+          <div style="margin-bottom: 20px;">
+            <p><strong>US-TEACHER-001 — Điểm danh sinh viên từng buổi học</strong></p>
+            <p style="font-style: italic; margin-left: 10px;">As a TEACHER, I want to record student attendance online, so that I can track student participation easily.</p>
+            <ul style="margin-left: 25px; margin-top: 6px;">
+              <li><strong>AC-1:</strong> Giảng viên có thể chọn lớp dạy, chọn số buổi học (1-15) để bắt đầu điểm danh.</li>
+              <li><strong>AC-2:</strong> Danh sách hiển thị đầy đủ MSSV, Họ tên. Cho phép chọn trạng thái: Có mặt (PRESENT), Vắng học (ABSENT), Đi muộn (LATE).</li>
+              <li><strong>AC-3:</strong> Dữ liệu lưu trữ thành công và cập nhật tỷ lệ chuyên cần của sinh viên trong hệ thống.</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <p><strong>US-TEACHER-002 — Nhập điểm và Khóa sổ điểm học phần</strong></p>
+            <p style="font-style: italic; margin-left: 10px;">As a TEACHER, I want to input grades and lock the grade sheet online, so that I can submit academic results to the academic office securely.</p>
+            <ul style="margin-left: 25px; margin-top: 6px;">
+              <li><strong>AC-1:</strong> Giảng viên nhập các đầu điểm 10-30-60 trực tiếp trên lưới danh sách lớp. Hệ thống tự động tính điểm tổng kết thang 10 và quy đổi điểm chữ.</li>
+              <li><strong>AC-2:</strong> Bấm nút "Khóa điểm" sẽ yêu cầu xác nhận. Sau khi xác nhận, toàn bộ cột điểm chuyển sang trạng thái chỉ đọc (Read-only).</li>
+              <li><strong>AC-3:</strong> Mọi nỗ lực ghi đè điểm số sau khóa sổ từ tài khoản giảng viên đều bị hệ thống chặn và trả lỗi bảo mật.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Admin User Stories -->
+        <div class="card">
+          <h3>5.3 Nhóm User Stories dành cho Quản Trị Viên (Admin)</h3>
+          <p><strong>US-ADMIN-001 — Quản lý chương trình học & Đóng mở cổng đăng ký:</strong> Admin có quyền tạo mới học kỳ, môn học, thiết lập số lượng tín chỉ, ràng buộc điều kiện tiên quyết, bật/tắt cổng đăng ký học phần thời gian thực.</p>
+          <p style="margin-top: 8px;"><strong>US-ADMIN-002 — Xếp lịch thi học kỳ & Xuất dữ liệu đối soát:</strong> Admin có quyền xếp ngày thi, phòng thi và ca thi cho từng lớp học phần; xuất file excel đối soát đăng ký, danh sách sinh viên đóng học phí để phục vụ lưu trữ giấy tờ.</p>
+          <p style="margin-top: 8px;"><strong>US-ADMIN-003 — Quản trị tri thức AI RAG:</strong> Admin có quyền tải lên tài liệu PDF/Text hoặc dán URL quy chế mới, hệ thống tự động chạy quy trình chunking, embedding và reindex tri thức cho chatbot.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 06: FUNCTIONAL REQUIREMENTS ================= -->
+      <section id="functional-requirements" class="section">
+        <h2 class="section-title">06. Functional Requirements (Đặc Tả Chức Năng Chi Tiết)</h2>
+        <p class="section-desc">Đặc tả cấu trúc dữ liệu, luồng xử lý chính và ngoại lệ của các yêu cầu chức năng quan trọng nhất hệ thống.</p>
+        
+        <!-- FR-01: Course Registration -->
+        <div class="card">
+          <h3>FR-REG-001: Đăng ký học phần bất đồng bộ qua Kafka</h3>
+          <table>
+            <tr><td style="width:180px; font-weight:700;">Mục tiêu nghiệp vụ</td><td>Tiếp nhận an toàn hàng ngàn request đăng ký học phần trong giây đầu tiên mở cổng mà không gây sập database.</td></tr>
+            <tr><td style="font-weight:700;">Actor thực hiện</td><td><span class="badge badge-student">STUDENT</span></td></tr>
+            <tr><td style="font-weight:700;">Độ ưu tiên</td><td><span class="badge badge-high">MUST HAVE</span></td></tr>
+            <tr><td style="font-weight:700;">Điều kiện tiên quyết</td><td>Học kỳ hiện tại phải ở trạng thái mở cổng đăng ký (<code>is_registration_open = true</code>), sinh viên có trạng thái tài khoản đang hoạt động.</td></tr>
+            <tr><td style="font-weight:700;">Luồng xử lý chính</td><td>
+              1. Sinh viên bấm nút "Đăng ký" lớp học phần <code>classSectionId</code> trên màn hình.<br>
+              2. Frontend gửi request <code>POST /api/student/enroll/{classSectionId}</code>.<br>
+              3. Backend kiểm tra điều kiện cổng mở. Đẩy thông điệp vào Kafka topic <code>enrollment-requests</code>.<br>
+              4. Backend lưu trạng thái yêu cầu vào Redis dạng <code>requestId -> PENDING</code>.<br>
+              5. Trả phản hồi HTTP 202 Accepted kèm <code>requestId</code> về Frontend trong &lt; 0.5 giây.<br>
+              6. Consumer đọc message từ Kafka, kiểm tra tuần tự: Sĩ số lớp (max slot), môn học tiên quyết, trùng TKB.<br>
+              7. Nếu đạt, insert bản ghi vào bảng <code>enrollments</code>, tăng sĩ số lớp (update <code>class_sections.current_slots = current_slots + 1</code>).<br>
+              8. Cập nhật Redis trạng thái <code>requestId -> SUCCESS</code>.
+            </td></tr>
+            <tr><td style="font-weight:700;">Luồng ngoại lệ</td><td>
+              - <strong>Ngoại lệ 1 (Lớp đầy):</strong> Consumer kiểm tra thấy <code>current_slots >= max_slots</code>. Hủy thao tác, cập nhật Redis <code>requestId -> FAILED (Lý do: Lớp học phần đã đầy slot)</code>.<br>
+              - <strong>Ngoại lệ 2 (Trùng TKB):</strong> Lịch học lớp mới bị trùng ngày/ca với lớp đã đăng ký thành công. Cập nhật Redis <code>requestId -> FAILED (Lý do: Trùng lịch biểu)</code>.
+            </td></tr>
+            <tr><td style="font-weight:700;">Dữ liệu đầu ra</td><td>Mã yêu cầu <code>requestId</code> dạng UUID, Trạng thái đăng ký.</td></tr>
+            <tr><td style="font-weight:700;">Bảng CSDL ảnh hưởng</td><td><code>enrollments</code>, <code>class_sections</code></td></tr>
+          </table>
+        </div>
+
+        <!-- FR-02: Grade Input & Locking -->
+        <div class="card">
+          <h3>FR-GRD-002: Nhập điểm thành phần & Khóa sổ điểm học phần</h3>
+          <table>
+            <tr><td style="width:180px; font-weight:700;">Mục tiêu nghiệp vụ</td><td>Đảm bảo giảng viên nhập điểm chính xác theo thang 10% - 30% - 60%, tự động hóa quy đổi và khóa sổ dữ liệu điểm tuyệt đối an toàn.</td></tr>
+            <tr><td style="font-weight:700;">Actor thực hiện</td><td><span class="badge badge-teacher">TEACHER</span></td></tr>
+            <tr><td style="font-weight:700;">Độ ưu tiên</td><td><span class="badge badge-high">MUST HAVE</span></td></tr>
+            <tr><td style="font-weight:700;">Luồng xử lý chính</td><td>
+              1. Giảng viên vào màn hình danh sách lớp học phần phân công giảng dạy.<br>
+              2. Điền các cột điểm chuyên cần, giữa kỳ, cuối kỳ cho từng sinh viên trong lưới hiển thị.<br>
+              3. Hệ thống tự động tính toán điểm tổng kết theo công thức: <code>Total = 0.1*Participation + 0.3*Midterm + 0.6*Final</code>.<br>
+              4. Tự động quy đổi sang điểm chữ (A: >= 8.5, B: >= 7.0, C: >= 5.5, D: >= 4.0, F: &lt; 4.0) và gán điểm hệ 4 tương ứng.<br>
+              5. Giảng viên bấm nút "Khóa điểm". Trạng thái lớp chuyển thành <code>grade_locked = true</code>.<br>
+              6. Hệ thống vô hiệu hóa hoàn toàn form nhập điểm, chặn mọi API chỉnh sửa điểm của lớp này.
+            </td></tr>
+            <tr><td style="font-weight:700;">Luồng ngoại lệ</td><td>
+              - <strong>Ngoại lệ 1 (Nhập sai phạm vi):</strong> Giảng viên điền điểm &lt; 0 hoặc > 10. Hệ thống báo lỗi và không cho lưu bản ghi.<br>
+              - <strong>Ngoại lệ 2 (Cố sửa điểm đã khóa):</strong> Giảng viên gửi request POST/PUT điểm sau khi đã khóa điểm. Hệ thống chặn đầu REST Controller, ghi nhận Audit Log cảnh báo, trả lỗi <code>403 Forbidden</code>.
+            </td></tr>
+            <tr><td style="font-weight:700;">Bảng CSDL ảnh hưởng</td><td><code>grades</code>, <code>enrollments</code>, <code>class_sections</code></td></tr>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 07: NON-FUNCTIONAL REQUIREMENTS ================= -->
+      <section id="nfr" class="section">
+        <h2 class="section-title">07. Non-Functional Requirements</h2>
+        <p class="section-desc">Đặc tả các chỉ tiêu kỹ thuật phi chức năng về bảo mật, hiệu năng, khả năng nâng cấp và độ khả dụng hệ thống.</p>
+        
+        <div class="nfr-grid">
+          <div class="nfr-card" style="--nfr-color: var(--accent);">
+            <h4>Bảo mật thông tin (Security)</h4>
+            <ul>
+              <li><strong>BCrypt Password Hashing:</strong> Tuyệt đối không lưu mật khẩu thô. Tất cả mật khẩu người dùng phải được băm bảo mật bằng thuật toán BCrypt cường độ muối thích hợp.</li>
+              <li><strong>JWT Token revocation (Redis Blacklist):</strong> Khi người dùng thực hiện đăng xuất, token cũ sẽ bị đẩy vào Redis Blacklist với TTL bằng thời hạn hiệu lực còn lại để vô hiệu hóa hoàn toàn token.</li>
+              <li><strong>Đăng nhập sai tối đa:</strong> Tài khoản sẽ bị khóa tạm thời 15 phút nếu nhập sai mật khẩu quá 5 lần liên tiếp để phòng chống tấn công brute-force.</li>
+            </ul>
+          </div>
+          <div class="nfr-card" style="--nfr-color: var(--accent2);">
+            <h4>Hiệu năng chịu tải (Performance)</h4>
+            <ul>
+              <li><strong>Thời gian phản hồi API:</strong> 95% số API truy vấn thông thường phải phản hồi dưới 150ms. API đăng ký học phần tiếp nhận queue dưới 500ms.</li>
+              <li><strong>Tải đỉnh (Concurrent Users):</strong> Hệ thống chịu tải tối thiểu 5,000 người dùng truy cập đăng ký học phần đồng thời mà không xảy ra hiện tượng mất kết nối database.</li>
+              <li><strong>Tối ưu hóa Database Indexing:</strong> Thiết lập Index trên PostgreSQL cho tất cả các khóa ngoại phục vụ tra cứu TKB và điểm số để tránh hiện tượng quét toàn bộ bảng (Table Scan).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 08: BUSINESS RULES CATALOG ================= -->
+      <section id="business-rules-catalog" class="section">
+        <h2 class="section-title">08. Business Rules Catalog</h2>
+        <p class="section-desc">Danh mục quy tắc nghiệp vụ (Business Rules) toàn diện, kiểm soát chặt chẽ logic xử lý ở tầng Backend.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:100px;">Mã Rule</th>
+                <th style="width:200px;">Tên Quy Tắc Nghiệp Vụ</th>
+                <th>Điều kiện ràng buộc chi tiết</th>
+                <th style="width:150px;">Module áp dụng</th>
+                <th style="width:200px;">Thông báo lỗi trả về</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>BR-ENROLL-001</strong></td>
+                <td>Kiểm soát giới hạn sĩ số tối đa lớp học phần</td>
+                <td>Khi consumer xử lý đăng ký, sĩ số hiện tại của lớp <code>current_slots</code> phải nhỏ hơn sĩ số tối đa <code>max_slots</code>. Nếu bằng hoặc vượt quá, giao dịch đăng ký sẽ bị hủy.</td>
+                <td>Đăng ký học phần</td>
+                <td><code>Lớp học phần đã đầy slot đăng ký</code></td>
+              </tr>
+              <tr>
+                <td><strong>BR-ENROLL-002</strong></td>
+                <td>Chống trùng lịch học thời khóa biểu</td>
+                <td>Thời gian học (Thứ trong tuần, Tiết học bắt đầu, Tiết học kết thúc) của lớp học phần đăng ký mới không được giao cắt với bất kỳ lịch học nào của các lớp sinh viên đã đăng ký thành công trước đó.</td>
+                <td>Đăng ký học phần</td>
+                <td><code>Lớp học phần bị trùng lịch học với môn CNTT-02</code></td>
+              </tr>
+              <tr>
+                <td><strong>BR-ENROLL-003</strong></td>
+                <td>Ràng buộc môn học tiên quyết</td>
+                <td>Trong hồ sơ điểm <code>grades</code> của sinh viên, phải tồn tại bản ghi đạt điểm đạt (khác điểm F) đối với tất cả các môn học tiên quyết được khai báo trong bảng <code>course_prerequisites</code> của môn học hiện tại.</td>
+                <td>Đăng ký học phần</td>
+                <td><code>Bạn chưa hoàn thành môn học tiên quyết tương ứng</code></td>
+              </tr>
+              <tr>
+                <td><strong>BR-GRADE-001</strong></td>
+                <td>Khóa sổ điểm lớp học phần giảng dạy</td>
+                <td>Khi lớp học phần có cờ <code>grade_locked = true</code>, mọi request gửi lên API <code>PUT /api/teacher/grades/{enrollmentId}</code> từ tài khoản giảng viên đều bị chặn đứng và trả lỗi bảo mật.</td>
+                <td>Nhập điểm (Grades)</td>
+                <td><code>Bảng điểm của lớp học này đã bị khóa, không thể chỉnh sửa</code></td>
+              </tr>
+              <tr>
+                <td><strong>BR-PAYMENT-001</strong></td>
+                <td>Xác thực chữ ký số thanh toán VNPay IPN</td>
+                <td>Khi nhận request callback/IPN từ VNPay, Backend phải tự tính toán chuỗi hash SHA512 từ các tham số nhận về kết hợp Security Hash Key cấu hình. Nếu không khớp sẽ từ chối giao dịch.</td>
+                <td>Thanh toán học phí</td>
+                <td><code>Chữ ký giao dịch VNPay không hợp lệ</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 09: API SPECIFICATION ================= -->
+      <section id="api-specification" class="section">
+        <h2 class="section-title">09. API Specification</h2>
+        <p class="section-desc">Đặc tả chi tiết các cổng API RESTful cốt lõi phục vụ tích hợp Frontend - Backend.</p>
+        
+        <div class="accordion-list">
+          
+          <div class="api-detail-card" data-method="POST" data-role="PUBLIC" data-module="AUTH">
+            <summary>
+              <span class="badge badge-post">POST</span>
+              <code>/api/auth/login</code>
+              <span>API-AUTH-001 — Đăng nhập hệ thống</span>
+            </summary>
+            <div class="api-detail-card-content">
+              <table>
+                <tr><td style="width:180px; font-weight:700;">Mục đích nghiệp vụ</td><td>Xác thực thông tin tài khoản người dùng, cấp Access Token và Refresh Token JWT để bắt đầu phiên làm việc.</td></tr>
+                <tr><td style="font-weight:700;">Role truy cập</td><td><span class="badge badge-all">PUBLIC</span></td></tr>
+                <tr><td style="font-weight:700;">Controller / Service</td><td><code>AuthController</code> / <code>AuthService</code></td></tr>
+                <tr><td style="font-weight:700;">Request Body (JSON)</td><td><code>{ "username": "student_01", "password": "password_raw" }</code></td></tr>
+                <tr><td style="font-weight:700;">Response Success (200 OK)</td><td><code>{ "accessToken": "eyJhb...", "refreshToken": "eyJ...", "role": "STUDENT" }</code></td></tr>
+                <tr><td style="font-weight:700;">CSDL ảnh hưởng</td><td>Đọc bảng <code>users</code>, ghi nhận thời gian đăng nhập mới vào cột <code>last_login_at</code>.</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="api-detail-card" data-method="POST" data-role="STUDENT" data-module="STUDENT">
+            <summary>
+              <span class="badge badge-post">POST</span>
+              <code>/api/student/enroll/{classSectionId}</code>
+              <span>API-STUDENT-003 — Gửi yêu cầu đăng ký học phần</span>
+            </summary>
+            <div class="api-detail-card-content">
+              <table>
+                <tr><td style="width:180px; font-weight:700;">Mục đích nghiệp vụ</td><td>Sinh viên gửi yêu cầu xếp hàng đăng ký lớp học phần bất đồng bộ qua Kafka broker.</td></tr>
+                <tr><td style="font-weight:700;">Role truy cập</td><td><span class="badge badge-student">STUDENT</span></td></tr>
+                <tr><td style="font-weight:700;">Path Parameters</td><td><code>classSectionId</code> (ID lớp học phần cần đăng ký)</td></tr>
+                <tr><td style="font-weight:700;">Response Success (202 Accepted)</td><td><code>{ "requestId": "uuid-string-1234", "status": "PENDING" }</code></td></tr>
+                <tr><td style="font-weight:700;">CSDL ảnh hưởng</td><td>Kafka Consumer đọc và ghi nhận bản ghi vào bảng <code>enrollments</code>, tăng sĩ số lớp <code>class_sections.current_slots</code>.</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="api-detail-card" data-method="PUT" data-role="TEACHER" data-module="TEACHER">
+            <summary>
+              <span class="badge badge-put">PUT</span>
+              <code>/api/teacher/grades/{enrollmentId}</code>
+              <span>API-TEACHER-003 — Nhập điểm thành phần sinh viên</span>
+            </summary>
+            <div class="api-detail-card-content">
+              <table>
+                <tr><td style="width:180px; font-weight:700;">Mục đích nghiệp vụ</td><td>Giảng viên cập nhật điểm số chuyên cần, giữa kỳ, cuối kỳ của sinh viên trong lớp dạy học.</td></tr>
+                <tr><td style="font-weight:700;">Role truy cập</td><td><span class="badge badge-teacher">TEACHER</span></td></tr>
+                <tr><td style="font-weight:700;">Request Body (JSON)</td><td><code>{ "participationScore": 9.0, "midtermScore": 8.0, "finalScore": 7.5 }</code></td></tr>
+                <tr><td style="font-weight:700;">CSDL ảnh hưởng</td><td>Ghi dữ liệu điểm số, tự động tính tổng điểm và điểm chữ lưu vào bảng <code>grades</code>.</td></tr>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 10: DATA REQUIREMENTS ================= -->
+      <section id="database-detail" class="section">
+        <h2 class="section-title">10. Data Requirements & ERD</h2>
+        <p class="section-desc">Mô tả cấu trúc dữ liệu, các bảng CSDL cốt lõi, vai trò phân quyền dữ liệu và các quy tắc bảo mật dữ liệu nhạy cảm.</p>
+        
+        <div class="card">
+          <h3>Quy tắc bảo mật thông tin nhạy cảm</h3>
+          <p>Hệ thống chứa thông tin nhạy cảm của sinh viên và giảng viên cần được kiểm soát chặt chẽ:</p>
+          <ul>
+            <li><strong>Điểm số học tập:</strong> Điểm số của sinh viên thuộc diện thông tin cá nhân bảo mật cao. Chỉ sinh viên sở hữu tài khoản, giảng viên đứng lớp giảng dạy, và admin phòng đào tạo được phép xem. Cấm hoàn toàn truy cập chéo giữa các tài khoản sinh viên khác nhau.</li>
+            <li><strong>Mã hóa thông tin cá nhân:</strong> Các thông tin nhạy cảm như số căn cước công dân (<code>national_id</code>), số điện thoại (<code>phone</code>) của sinh viên cần được mã hóa hoặc ẩn bớt ký tự trên giao diện thông thường để tránh rò rỉ dữ liệu.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Bảng <code>grades</code> — Bảng điểm chi tiết của sinh viên</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tên cột (Field)</th>
+                  <th>Kiểu dữ liệu (Type)</th>
+                  <th>Ràng buộc (Constraint)</th>
+                  <th>Mô tả ý nghĩa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>id</strong></td>
+                  <td>BIGSERIAL</td>
+                  <td>PRIMARY KEY</td>
+                  <td>Mã định danh duy nhất của dòng điểm số.</td>
+                </tr>
+                <tr>
+                  <td><strong>enrollment_id</strong></td>
+                  <td>BIGINT</td>
+                  <td>NOT NULL, UNIQUE, FOREIGN KEY REFERENCES enrollments(id)</td>
+                  <td>Lượt đăng ký lớp học phần tương ứng của sinh viên.</td>
+                </tr>
+                <tr>
+                  <td><strong>participation_score</strong></td>
+                  <td>FLOAT</td>
+                  <td>-</td>
+                  <td>Điểm chuyên cần, trọng số 10% trong công thức điểm.</td>
+                </tr>
+                <tr>
+                  <td><strong>midterm_score</strong></td>
+                  <td>FLOAT</td>
+                  <td>-</td>
+                  <td>Điểm giữa kỳ, trọng số 30% trong công thức điểm.</td>
+                </tr>
+                <tr>
+                  <td><strong>final_score</strong></td>
+                  <td>FLOAT</td>
+                  <td>-</td>
+                  <td>Điểm cuối kỳ, trọng số 60% trong công thức điểm.</td>
+                </tr>
+                <tr>
+                  <td><strong>total_score</strong></td>
+                  <td>FLOAT</td>
+                  <td>-</td>
+                  <td>Điểm tổng kết thang 10 (tự tính bằng công thức).</td>
+                </tr>
+                <tr>
+                  <td><strong>letter_grade</strong></td>
+                  <td>VARCHAR(2)</td>
+                  <td>-</td>
+                  <td>Điểm chữ quy đổi (A, B, C, D, F) dùng để xếp loại học lực.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 11: UI/UX SCREEN MAPPING ================= -->
+      <section id="ui-screen-mapping" class="section">
+        <h2 class="section-title">11. UI/UX Screen Mapping</h2>
+        <p class="section-desc">Bảng ánh xạ trực tiếp từ màn hình giao diện người dùng sang các API Backend liên quan và trạng thái dữ liệu hiển thị.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tên màn hình</th>
+                <th>Frontend Route</th>
+                <th>Actor truy cập</th>
+                <th>Chức năng tương tác chính</th>
+                <th>API Backend được gọi</th>
+                <th>Dữ liệu hiển thị chính</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Đăng ký học phần</strong></td>
+                <td><code>/student/course-registration</code></td>
+                <td>STUDENT</td>
+                <td>Tìm kiếm môn học, đăng ký lớp học phần vào giỏ học tập.</td>
+                <td><code>GET /api/student/classes/semester/{id}</code><br><code>POST /api/student/enroll/{classId}</code></td>
+                <td>Danh sách lớp học phần mở trong kỳ, trạng thái số slot trống còn lại, giỏ môn đã chọn.</td>
+                <td><span class="badge badge-get">API Thật</span></td>
+              </tr>
+              <tr>
+                <td><strong>Nhập điểm học phần</strong></td>
+                <td><code>/teacher/grades</code></td>
+                <td>TEACHER</td>
+                <td>Giảng viên điền điểm chuyên cần, giữa kỳ, cuối kỳ của sinh viên.</td>
+                <td><code>GET /api/teacher/grades/class/{classSectionId}</code><br><code>PUT /api/teacher/grades/{enrollmentId}</code></td>
+                <td>Bảng danh sách sinh viên lớp giảng dạy, các ô input nhập điểm số, nút khóa điểm.</td>
+                <td><span class="badge badge-get">API Thật</span></td>
+              </tr>
+              <tr>
+                <td><strong>Hóa đơn học phí</strong></td>
+                <td><code>/student/tuition</code></td>
+                <td>STUDENT</td>
+                <td>Xem thống kê công nợ và bấm nút redirect thanh toán trực tuyến.</td>
+                <td><code>GET /api/student/tuition/{semesterId}</code><br><code>POST /api/student/tuition/{id}/vnpay-url</code></td>
+                <td>Tổng học phí cần nộp, số tiền đã đóng, số tiền còn nợ, nút thanh toán trực tuyến.</td>
+                <td><span class="badge badge-get">API Thật</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 12: TEST CASE SPECIFICATIONS ================= -->
+      <section id="test-cases" class="section">
+        <h2 class="section-title">12. Test Case Specifications</h2>
+        <p class="section-desc">Kịch bản kiểm thử (Test Cases) chi tiết cho các luồng nghiệp vụ nhạy cảm, phục vụ đối soát chất lượng phần mềm.</p>
+        
+        <div class="card">
+          <h3>TC-ENROLL-002 — Đăng ký học phần khi lớp đã đầy slot</h3>
+          <ul style="margin-left: 20px;">
+            <li><strong>Nhóm chức năng:</strong> Đăng ký học phần</li>
+            <li><strong>Tiền điều kiện:</strong> Lớp học phần CNTT-01 có sĩ số tối đa <code>max_slots = 50</code> và hiện đang có sĩ số <code>current_slots = 50</code>.</li>
+            <li><strong>Dữ liệu test:</strong> <code>classSectionId = 1</code> (Lớp học phần CNTT-01)</li>
+            <li><strong>Các bước thực hiện:</strong>
+              <ol style="margin-left: 20px; margin-top: 4px;">
+                <li>Đăng nhập với tài khoản sinh viên hoạt động hợp lệ.</li>
+                <li>Vào màn hình đăng ký học phần, chọn lớp CNTT-01.</li>
+                <li>Bấm nút "Đăng ký" lớp CNTT-01.</li>
+                <li>Chờ hệ thống hàng đợi Kafka xử lý yêu cầu.</li>
+              </ol>
+            </li>
+            <li><strong>Kết quả mong đợi:</strong> Yêu cầu được gửi thành công, nhận về requestId. Sau khi polling hoàn tất, trạng thái đăng ký trả về là <code>FAILED</code> kèm theo thông báo lỗi <code>Lớp học phần đã đầy slot đăng ký</code>. Sinh viên không được thêm vào bảng <code>enrollments</code>.</li>
+            <li><strong>API liên quan:</strong> <code>POST /api/student/enroll/{classSectionId}</code></li>
+            <li><strong>Độ ưu tiên:</strong> <span class="badge badge-high">🔴 CAO</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 13: REQUIREMENT TRACEABILITY MATRIX ================= -->
+      <section id="rtm" class="section">
+        <h2 class="section-title">13. Requirement Traceability Matrix (Ma Trận Truy Vết Yêu Cầu - RTM)</h2>
+        <p class="section-desc">Bảng ánh xạ truy vết đầy đủ từ mục tiêu chiến lược của doanh nghiệp đến User Story, Đặc tả chức năng (FR), API Backend, bảng CSDL và kịch bản Test Case tương ứng.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Business Goal</th>
+                <th>User Story</th>
+                <th>Functional Req (FR)</th>
+                <th>Backend API</th>
+                <th>Database Tables</th>
+                <th>Test Case (TC)</th>
+                <th>Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>BG-001:</strong> Giảm nghẽn đăng ký học phần.</td>
+                <td><strong>US-STUDENT-001:</strong> Sinh viên đăng ký lớp học phần online.</td>
+                <td><strong>FR-REG-001:</strong> Đăng ký học phần bất đồng bộ Kafka.</td>
+                <td><code>POST /api/student/enroll/{classSectionId}</code></td>
+                <td><code>enrollments</code>, <code>class_sections</code></td>
+                <td><code>TC-ENROLL-002</code></td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+              </tr>
+              <tr>
+                <td><strong>BG-002:</strong> Tự động hóa thanh toán học phí.</td>
+                <td><strong>US-STUDENT-002:</strong> Thanh toán học phí trực tuyến VNPay.</td>
+                <td><strong>FR-PAY-003:</strong> Redirect thanh toán VNPay Sandbox.</td>
+                <td><code>POST /api/student/tuition/{id}/vnpay-url</code></td>
+                <td><code>tuition_bills</code>, <code>payment_transactions</code></td>
+                <td><code>TC-PAY-005</code></td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+              </tr>
+              <tr>
+                <td><strong>BG-003:</strong> Bảo mật cột điểm số, chặn sửa điểm trái phép.</td>
+                <td><strong>US-TEACHER-002:</strong> Giảng viên nhập điểm & khóa sổ.</td>
+                <td><strong>FR-GRD-002:</strong> Nhập điểm và Khóa sổ điểm học phần.</td>
+                <td><code>PUT /api/teacher/grades/{enrollmentId}</code></td>
+                <td><code>grades</code>, <code>class_sections</code></td>
+                <td><code>TC-GRADE-004</code></td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 14: RISKS & ASSUMPTIONS ================= -->
+      <section id="risks-assumptions" class="section">
+        <h2 class="section-title">14. Risks & Assumptions (Rủi Ro & Giả Định)</h2>
+        <p class="section-desc">Phân tích các rủi ro tiềm ẩn trong quá trình vận hành hệ thống thực tế và các phương án giảm thiểu rủi ro từ góc nhìn BA.</p>
+        
+        <div class="grid-2">
+          <div class="card">
+            <h3>Rủi ro nghiệp vụ & Kỹ thuật</h3>
+            <p><strong>1. Trễ luồng tin nhắn Kafka (Message Delay):</strong> Trong trường hợp Kafka consumer xử lý quá chậm hoặc hàng đợi bị tắc nghẽn, sinh viên sẽ phải chờ trạng thái PENDING rất lâu trên màn hình.</p>
+            <p style="margin-top: 8px;"><strong>2. Sai lệch đối soát VNPay (IPN Failure):</strong> Trong trường hợp Webhook/IPN của VNPay gặp sự cố mạng không thể gọi sang hệ thống Backend của trường, sinh viên đã bị trừ tiền trong tài khoản nhưng hóa đơn học phí trên portal vẫn báo "Nợ học phí".</p>
+          </div>
+          <div class="card">
+            <h3>Phương án giảm thiểu từ phía BA</h3>
+            <p><strong>1. Giải pháp giảm thiểu Kafka:</strong> Thiết lập cơ chế cảnh báo tự động khi độ trễ (consumer lag) vượt ngưỡng 5 giây. Tự động scale up số lượng consumer threads để chia tải xử lý.</p>
+            <p style="margin-top: 8px;"><strong>2. Giải pháp giảm thiểu VNPay:</strong> Xây dựng API và màn hình cho phép sinh viên click "Kiểm tra lại giao dịch" để chủ động gọi sang VNPay QueryDR API truy vấn đối soát tức thì, cập nhật lại hóa đơn mà không cần chờ IPN.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ================= SECTION 15: COMPLETION & ROADMAP ================= -->
+      <section id="completion-status" class="section">
+        <h2 class="section-title">15. Completion Status & Roadmap 2026</h2>
+        <p class="section-desc">Báo cáo đánh giá mức độ hoàn thiện thực tế các cấu phần dự án và lộ trình phát triển cải tiến.</p>
+        
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nhóm Module Nghiệp Vụ</th>
+                <th>Độ hoàn thiện Backend API</th>
+                <th>Độ hoàn thiện Frontend UI</th>
+                <th>Mức độ kiểm thử (Tests)</th>
+                <th>Trạng Thái Chung</th>
+                <th>Các phần cần xác nhận thêm với Stakeholder</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Xác thực & Người dùng</strong></td>
+                <td>100% (JWT)</td>
+                <td>100% (Shadcn/UI forms)</td>
+                <td>Tốt (Integration tests)</td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+                <td><span style="color:var(--yellow); font-weight:600;">Cần xác nhận thêm với stakeholder:</span> Quy định thời hạn tự động đăng xuất sau bao nhiêu phút không hoạt động để cấu hình JWT TTL chính xác.</td>
+              </tr>
+              <tr>
+                <td><strong>Đăng ký học phần (Kafka)</strong></td>
+                <td>100% (Kafka Broker integration)</td>
+                <td>100% (Polling UI status)</td>
+                <td>Tốt (Load testing 5000 requests/s)</td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+                <td><span style="color:var(--yellow); font-weight:600;">Cần xác nhận thêm với stakeholder:</span> Giới hạn số tín chỉ tối đa sinh viên được phép đăng ký trong một học kỳ thường và học kỳ hè là bao nhiêu.</td>
+              </tr>
+              <tr>
+                <td><strong>Học phí & VNPay</strong></td>
+                <td>100% (Ký số SHA512)</td>
+                <td>100% (VNPay redirect)</td>
+                <td>Khá</td>
+                <td><span class="badge badge-get">Hoàn thiện</span></td>
+                <td><span style="color:var(--yellow); font-weight:600;">Cần xác nhận thêm với stakeholder:</span> Quy trình xử lý hoàn tiền (Refund) cho sinh viên khi hủy lớp học phần sau khi đã đóng học phí thành công sẽ xử lý tự động hay thủ công.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" style="margin-top: 24px;">
+          <h3>Lộ Trình Cải Tiến Phát Triển Hệ Thống (Roadmap 2026)</h3>
+          <div class="timeline">
+            <div class="timeline-item" style="--dot-color: var(--accent);">
+              <div class="timeline-header">
+                <span class="timeline-phase">Giai đoạn 1</span>
+                <span class="timeline-title">Tối Ưu Trải Nghiệm Điểm Danh & Email tự động</span>
+                <span class="timeline-date">Tháng 06 - 07/2026</span>
+              </div>
+              <div class="timeline-body">
+                <ul>
+                  <li>Tích hợp dịch vụ gửi email tự động (JavaMail) thông báo học phí, kết quả xếp ca thi và điểm số mới cho sinh viên.</li>
+                  <li>Xây dựng quy trình Admin phê duyệt mở khóa điểm số (unlock grades) có ghi nhận audit logs phục vụ tra soát.</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="timeline-item" style="--dot-color: var(--accent2);">
+              <div class="timeline-header">
+                <span class="timeline-phase">Giai đoạn 2</span>
+                <span class="timeline-title">Nâng Cấp Real-time & Triển Khai Production</span>
+                <span class="timeline-date">Tháng 08 - 09/2026</span>
+              </div>
+              <div class="timeline-body">
+                <ul>
+                  <li>Thay thế cơ chế Polling 2s bằng WebSocket STOMP để trả kết quả xếp hàng đăng ký học phần bất đồng bộ từ Kafka về Frontend tức thì.</li>
+                  <li>Hoàn tất kiểm thử tải đỉnh giả lập với 10,000 requests/s và đấu nối hợp đồng tích hợp VNPay Production thật.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer style="text-align: center; padding: 40px 0; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 40px;">
+        © 2026 Đại học Thăng Long — Ban Phát Triển Hệ Thống Quản Lý Đào Tạo Đội Ngũ ACV. Tất cả quyền được bảo lưu.
+      </footer>
+    </main>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-top" title="Lên đầu trang">▲</button>
+
+  <!-- Script -->
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Mobile Sidebar Toggle
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  const menuBtn = document.querySelector('.menu-btn');
+
+  function toggleSidebar() {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+  }
+
+  if (menuBtn) menuBtn.addEventListener('click', toggleSidebar);
+  if (overlay) overlay.addEventListener('click', toggleSidebar);
+
+  // Close sidebar on link click (mobile)
+  const navLinks = document.querySelectorAll('nav ul li a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    });
+  });
+
+  // Dark/Light Mode Toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  updateThemeIcon(currentTheme);
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+      let newTheme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+  }
+
+  function updateThemeIcon(theme) {
+    if (!themeBtn) return;
+    if (theme === 'dark') {
+      themeBtn.textContent = '☀️';
+      themeBtn.title = 'Chuyển sang Giao diện Sáng';
+    } else {
+      themeBtn.textContent = '🌙';
+      themeBtn.title = 'Chuyển sang Giao diện Tối';
+    }
+  }
+
+  // ScrollSpy - Active Nav Highlighting
+  const sections = document.querySelectorAll('.section');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollPos = window.scrollY + 100; // Offset for header
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (scrollPos >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+        // Update breadcrumb
+        const sectionTitleText = section.querySelector('.section-title')?.textContent || '';
+        const breadcrumbSpan = document.querySelector('.breadcrumb span');
+        if (breadcrumbSpan) {
+          breadcrumbSpan.textContent = sectionTitleText.replace(/^[^\w\s]*\s*/, ''); // strip icons
+        }
+      }
+    });
+
+    // Progress Bar
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const progress = document.getElementById('progress');
+    if (progress) progress.style.width = scrolled + '%';
+
+    // Back to top visibility
+    const backTop = document.getElementById('back-top');
+    if (backTop) {
+      if (window.scrollY > 300) {
+        backTop.classList.add('visible');
+      } else {
+        backTop.classList.remove('visible');
+      }
+    }
+  });
+
+  // Back to Top Click
+  const backTop = document.getElementById('back-top');
+  if (backTop) {
+    backTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Print Page
+  const printBtn = document.getElementById('print-report');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
+
+  // Auto-expand and restore details tags when printing/PDF exporting
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('details').forEach(el => {
+      el.setAttribute('data-was-open', el.open);
+      el.open = true;
+    });
+  });
+  window.addEventListener('afterprint', () => {
+    document.querySelectorAll('details').forEach(el => {
+      if (el.getAttribute('data-was-open') === 'false') {
+        el.open = false;
+      }
+    });
+  });
+
+  // Live Search
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.createElement('div');
+  searchResults.id = 'search-results';
+  searchResults.style.display = 'none';
+  
+  if (searchInput) {
+    const parent = searchInput.parentNode;
+    parent.appendChild(searchResults);
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      searchResults.innerHTML = '';
+
+      if (!query) {
+        searchResults.style.display = 'none';
+        return;
+      }
+
+      const matches = [];
+      const headings = document.querySelectorAll('.section h2, .section h3, .section h4, td');
+      headings.forEach((element) => {
+        let text = element.textContent || '';
+        let section = element.closest('.section');
+        if (!section) return;
+        
+        let sectionId = section.getAttribute('id');
+        let sectionTitle = section.querySelector('.section-title')?.textContent.trim() || 'Tài liệu';
+
+        if (text.toLowerCase().includes(query)) {
+          let idx = text.toLowerCase().indexOf(query);
+          let start = Math.max(0, idx - 30);
+          let end = Math.min(text.length, idx + query.length + 30);
+          let snippet = text.substring(start, end).replace(/\n/g, ' ');
+          if (start > 0) snippet = '...' + snippet;
+          if (end < text.length) snippet = snippet + '...';
+
+          const regex = new RegExp(`(${query})`, 'gi');
+          snippet = snippet.replace(regex, '<mark>$1</mark>');
+
+          matches.push({
+            id: sectionId,
+            sectionName: sectionTitle,
+            snippet: snippet,
+            element: element
+          });
+        }
+      });
+
+      if (matches.length > 0) {
+        searchResults.style.display = 'block';
+        matches.slice(0, 8).forEach(match => {
+          const item = document.createElement('a');
+          item.href = `#${match.id}`;
+          item.innerHTML = `
+            <div style="font-weight:700; font-size:12px; color:var(--accent);">${match.sectionName}</div>
+            <div style="font-size:11px; margin-top:2px; color:var(--muted);">${match.snippet}</div>
+          `;
+          item.addEventListener('click', () => {
+            searchResults.style.display = 'none';
+            searchInput.value = '';
+            setTimeout(() => {
+              match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              match.element.style.transition = 'background-color 0.5s ease';
+              match.element.style.backgroundColor = 'rgba(200,16,46,0.2)';
+              setTimeout(() => {
+                match.element.style.backgroundColor = '';
+              }, 2000);
+            }, 300);
+          });
+          searchResults.appendChild(item);
+        });
+      } else {
+        searchResults.style.display = 'block';
+        searchResults.innerHTML = '<div style="padding:10px 14px; font-size:12px; color:var(--muted);">Không tìm thấy kết quả</div>';
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.style.display = 'none';
+      }
+    });
+  }
+});
+  </script>
+</body>
+</html>
