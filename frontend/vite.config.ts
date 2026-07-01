@@ -4,8 +4,8 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vite";
-
 const isCloudflare = process.env.CF_PAGES === "1" || process.env.CLOUDFLARE === "true";
+const isVercel = process.env.VERCEL === "1";
 
 export default defineConfig({
   plugins: [
@@ -14,6 +14,9 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart({
       server: { entry: "server" },
+      nitro: {
+        preset: isVercel ? "vercel" : undefined,
+      }
     }),
     react(),
   ].filter(Boolean),
