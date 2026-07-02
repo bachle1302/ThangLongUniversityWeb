@@ -1,11 +1,6 @@
 name: Deploy Frontend to Cloudflare
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
 jobs:
