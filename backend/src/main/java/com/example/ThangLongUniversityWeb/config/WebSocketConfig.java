@@ -32,7 +32,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     private final WebSocketHandshakeInterceptor handshakeInterceptor;
     private final WebSocketChannelInterceptor channelInterceptor;
 
-    @Value("${app.cors.allowed-origins:http://localhost:*,http://127.0.0.1:*,http://localhost:3000,http://localhost:8080}")
+    @Value("${app.cors.allowed-origins:http://localhost:*,http://127.0.0.1:*,http://localhost:3000,http://localhost:8080,https://thang-long-university-web.vercel.app}")
     private String allowedOrigins;
 
     /**

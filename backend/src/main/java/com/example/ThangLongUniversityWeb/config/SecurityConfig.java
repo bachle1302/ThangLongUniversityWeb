@@ -27,7 +27,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final RateLimitFilter rateLimitFilter;
 
-    @Value("${app.cors.allowed-origins:http://localhost:*,http://127.0.0.1:*,http://localhost:3000,http://localhost:8080}")
+    @Value("${app.cors.allowed-origins:http://localhost:*,http://127.0.0.1:*,http://localhost:3000,http://localhost:8080,https://thang-long-university-web.vercel.app}")
     private String allowedOrigins;
 
     /**
